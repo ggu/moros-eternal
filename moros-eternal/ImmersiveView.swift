@@ -1,6 +1,6 @@
 //
 //  ImmersiveView.swift
-//  Moros: Eternal
+//  moros-eternal
 //
 //  Created by Gabriel Uribe on 4/20/24.
 //

@@ -7,82 +7,82 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		767367A72BD46F7A00513603 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 767367A62BD46F7A00513603 /* RealityKitContent */; };
-		767367A92BD46F7A00513603 /* MorosEternalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367A82BD46F7A00513603 /* MorosEternalApp.swift */; };
-		767367AB2BD46F7A00513603 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367AA2BD46F7A00513603 /* ContentView.swift */; };
-		767367AD2BD46F7A00513603 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367AC2BD46F7A00513603 /* ImmersiveView.swift */; };
-		767367AF2BD46F7A00513603 /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = 767367AE2BD46F7A00513603 /* ImageBasedLighting.skybox */; };
-		767367B12BD46F7B00513603 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767367B02BD46F7B00513603 /* Assets.xcassets */; };
-		767367B42BD46F7B00513603 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767367B32BD46F7B00513603 /* Preview Assets.xcassets */; };
+		767367ED2BD4751E00513603 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 767367EC2BD4751E00513603 /* RealityKitContent */; };
+		767367EF2BD4751E00513603 /* moros_eternalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367EE2BD4751E00513603 /* moros_eternalApp.swift */; };
+		767367F12BD4751E00513603 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367F02BD4751E00513603 /* ContentView.swift */; };
+		767367F32BD4751E00513603 /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367F22BD4751E00513603 /* ImmersiveView.swift */; };
+		767367F52BD4751E00513603 /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = 767367F42BD4751E00513603 /* ImageBasedLighting.skybox */; };
+		767367F72BD4751F00513603 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767367F62BD4751F00513603 /* Assets.xcassets */; };
+		767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767367F92BD4751F00513603 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		767367A12BD46F7A00513603 /* Moros: Eternal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Moros: Eternal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		767367A52BD46F7A00513603 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
-		767367A82BD46F7A00513603 /* MorosEternalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorosEternalApp.swift; sourceTree = "<group>"; };
-		767367AA2BD46F7A00513603 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		767367AC2BD46F7A00513603 /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
-		767367AE2BD46F7A00513603 /* ImageBasedLighting.skybox */ = {isa = PBXFileReference; lastKnownFileType = file.skybox; path = ImageBasedLighting.skybox; sourceTree = "<group>"; };
-		767367B02BD46F7B00513603 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		767367B32BD46F7B00513603 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		767367B52BD46F7B00513603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		767367E72BD4751E00513603 /* moros-eternal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "moros-eternal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		767367EB2BD4751E00513603 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		767367EE2BD4751E00513603 /* moros_eternalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moros_eternalApp.swift; sourceTree = "<group>"; };
+		767367F02BD4751E00513603 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		767367F22BD4751E00513603 /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
+		767367F42BD4751E00513603 /* ImageBasedLighting.skybox */ = {isa = PBXFileReference; lastKnownFileType = file.skybox; path = ImageBasedLighting.skybox; sourceTree = "<group>"; };
+		767367F62BD4751F00513603 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		767367F92BD4751F00513603 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		767367FB2BD4751F00513603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7673679E2BD46F7A00513603 /* Frameworks */ = {
+		767367E42BD4751E00513603 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				767367A72BD46F7A00513603 /* RealityKitContent in Frameworks */,
+				767367ED2BD4751E00513603 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		767367982BD46F7A00513603 = {
+		767367DE2BD4751E00513603 = {
 			isa = PBXGroup;
 			children = (
-				767367A32BD46F7A00513603 /* Moros: Eternal */,
-				767367A42BD46F7A00513603 /* Packages */,
-				767367A22BD46F7A00513603 /* Products */,
+				767367E92BD4751E00513603 /* moros-eternal */,
+				767367EA2BD4751E00513603 /* Packages */,
+				767367E82BD4751E00513603 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		767367A22BD46F7A00513603 /* Products */ = {
+		767367E82BD4751E00513603 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				767367A12BD46F7A00513603 /* Moros: Eternal.app */,
+				767367E72BD4751E00513603 /* moros-eternal.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		767367A32BD46F7A00513603 /* Moros: Eternal */ = {
+		767367E92BD4751E00513603 /* moros-eternal */ = {
 			isa = PBXGroup;
 			children = (
-				767367A82BD46F7A00513603 /* MorosEternalApp.swift */,
-				767367AA2BD46F7A00513603 /* ContentView.swift */,
-				767367AC2BD46F7A00513603 /* ImmersiveView.swift */,
-				767367AE2BD46F7A00513603 /* ImageBasedLighting.skybox */,
-				767367B02BD46F7B00513603 /* Assets.xcassets */,
-				767367B52BD46F7B00513603 /* Info.plist */,
-				767367B22BD46F7B00513603 /* Preview Content */,
+				767367EE2BD4751E00513603 /* moros_eternalApp.swift */,
+				767367F02BD4751E00513603 /* ContentView.swift */,
+				767367F22BD4751E00513603 /* ImmersiveView.swift */,
+				767367F42BD4751E00513603 /* ImageBasedLighting.skybox */,
+				767367F62BD4751F00513603 /* Assets.xcassets */,
+				767367FB2BD4751F00513603 /* Info.plist */,
+				767367F82BD4751F00513603 /* Preview Content */,
 			);
-			path = "Moros: Eternal";
+			path = "moros-eternal";
 			sourceTree = "<group>";
 		};
-		767367A42BD46F7A00513603 /* Packages */ = {
+		767367EA2BD4751E00513603 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				767367A52BD46F7A00513603 /* RealityKitContent */,
+				767367EB2BD4751E00513603 /* RealityKitContent */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
 		};
-		767367B22BD46F7B00513603 /* Preview Content */ = {
+		767367F82BD4751F00513603 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				767367B32BD46F7B00513603 /* Preview Assets.xcassets */,
+				767367F92BD4751F00513603 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -90,42 +90,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		767367A02BD46F7A00513603 /* Moros: Eternal */ = {
+		767367E62BD4751E00513603 /* moros-eternal */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 767367B82BD46F7B00513603 /* Build configuration list for PBXNativeTarget "Moros: Eternal" */;
+			buildConfigurationList = 767367FE2BD4751F00513603 /* Build configuration list for PBXNativeTarget "moros-eternal" */;
 			buildPhases = (
-				7673679D2BD46F7A00513603 /* Sources */,
-				7673679E2BD46F7A00513603 /* Frameworks */,
-				7673679F2BD46F7A00513603 /* Resources */,
+				767367E32BD4751E00513603 /* Sources */,
+				767367E42BD4751E00513603 /* Frameworks */,
+				767367E52BD4751E00513603 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Moros: Eternal";
+			name = "moros-eternal";
 			packageProductDependencies = (
-				767367A62BD46F7A00513603 /* RealityKitContent */,
+				767367EC2BD4751E00513603 /* RealityKitContent */,
 			);
-			productName = "Moros: Eternal";
-			productReference = 767367A12BD46F7A00513603 /* Moros: Eternal.app */;
+			productName = "moros-eternal";
+			productReference = 767367E72BD4751E00513603 /* moros-eternal.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		767367992BD46F7A00513603 /* Project object */ = {
+		767367DF2BD4751E00513603 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
-					767367A02BD46F7A00513603 = {
+					767367E62BD4751E00513603 = {
 						CreatedOnToolsVersion = 15.3;
 					};
 				};
 			};
-			buildConfigurationList = 7673679C2BD46F7A00513603 /* Build configuration list for PBXProject "Moros: Eternal" */;
+			buildConfigurationList = 767367E22BD4751E00513603 /* Build configuration list for PBXProject "moros-eternal" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -133,44 +133,44 @@
 				en,
 				Base,
 			);
-			mainGroup = 767367982BD46F7A00513603;
-			productRefGroup = 767367A22BD46F7A00513603 /* Products */;
+			mainGroup = 767367DE2BD4751E00513603;
+			productRefGroup = 767367E82BD4751E00513603 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				767367A02BD46F7A00513603 /* Moros: Eternal */,
+				767367E62BD4751E00513603 /* moros-eternal */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7673679F2BD46F7A00513603 /* Resources */ = {
+		767367E52BD4751E00513603 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				767367B12BD46F7B00513603 /* Assets.xcassets in Resources */,
-				767367B42BD46F7B00513603 /* Preview Assets.xcassets in Resources */,
-				767367AF2BD46F7A00513603 /* ImageBasedLighting.skybox in Resources */,
+				767367F72BD4751F00513603 /* Assets.xcassets in Resources */,
+				767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */,
+				767367F52BD4751E00513603 /* ImageBasedLighting.skybox in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		7673679D2BD46F7A00513603 /* Sources */ = {
+		767367E32BD4751E00513603 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				767367AB2BD46F7A00513603 /* ContentView.swift in Sources */,
-				767367A92BD46F7A00513603 /* MorosEternalApp.swift in Sources */,
-				767367AD2BD46F7A00513603 /* ImmersiveView.swift in Sources */,
+				767367F12BD4751E00513603 /* ContentView.swift in Sources */,
+				767367EF2BD4751E00513603 /* moros_eternalApp.swift in Sources */,
+				767367F32BD4751E00513603 /* ImmersiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		767367B62BD46F7B00513603 /* Debug */ = {
+		767367FC2BD4751F00513603 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -233,7 +233,7 @@
 			};
 			name = Debug;
 		};
-		767367B72BD46F7B00513603 /* Release */ = {
+		767367FD2BD4751F00513603 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -289,14 +289,14 @@
 			};
 			name = Release;
 		};
-		767367B92BD46F7B00513603 /* Debug */ = {
+		767367FF2BD4751F00513603 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Moros: Eternal/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"moros-eternal/Preview Content\"";
 				DEVELOPMENT_TEAM = QJJM36L883;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -306,7 +306,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "teamfivethree.Moros--Eternal";
+				PRODUCT_BUNDLE_IDENTIFIER = "teamfivethree.moros-eternal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -315,14 +315,14 @@
 			};
 			name = Debug;
 		};
-		767367BA2BD46F7B00513603 /* Release */ = {
+		767368002BD4751F00513603 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Moros: Eternal/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"moros-eternal/Preview Content\"";
 				DEVELOPMENT_TEAM = QJJM36L883;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -332,7 +332,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "teamfivethree.Moros--Eternal";
+				PRODUCT_BUNDLE_IDENTIFIER = "teamfivethree.moros-eternal";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -344,20 +344,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7673679C2BD46F7A00513603 /* Build configuration list for PBXProject "Moros: Eternal" */ = {
+		767367E22BD4751E00513603 /* Build configuration list for PBXProject "moros-eternal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				767367B62BD46F7B00513603 /* Debug */,
-				767367B72BD46F7B00513603 /* Release */,
+				767367FC2BD4751F00513603 /* Debug */,
+				767367FD2BD4751F00513603 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		767367B82BD46F7B00513603 /* Build configuration list for PBXNativeTarget "Moros: Eternal" */ = {
+		767367FE2BD4751F00513603 /* Build configuration list for PBXNativeTarget "moros-eternal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				767367B92BD46F7B00513603 /* Debug */,
-				767367BA2BD46F7B00513603 /* Release */,
+				767367FF2BD4751F00513603 /* Debug */,
+				767368002BD4751F00513603 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -365,11 +365,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		767367A62BD46F7A00513603 /* RealityKitContent */ = {
+		767367EC2BD4751E00513603 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 767367992BD46F7A00513603 /* Project object */;
+	rootObject = 767367DF2BD4751E00513603 /* Project object */;
 }

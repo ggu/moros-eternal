@@ -1,6 +1,6 @@
 //
-//  Moros__EternalApp.swift
-//  Moros: Eternal
+//  moros_eternalApp.swift
+//  moros-eternal
 //
 //  Created by Gabriel Uribe on 4/20/24.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct MorosEternalApp: App {
+struct moros_eternalApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
