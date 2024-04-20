@@ -21,7 +21,13 @@ struct ImmersiveView: View {
                 let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
                 immersiveContentEntity.components.set(iblComponent)
                 immersiveContentEntity.components.set(ImageBasedLightReceiverComponent(imageBasedLight: immersiveContentEntity))
-
+				
+				let cube = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
+				cube.components.set(iblComponent)
+				cube.components.set(ImageBasedLightReceiverComponent(imageBasedLight: cube))
+				cube.transform.translation = [0, 0, 0]
+				content.add(cube)
+				
                 // Put skybox here.  See example in World project available at
                 // https://developer.apple.com/
             }
