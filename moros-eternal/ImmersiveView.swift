@@ -25,7 +25,7 @@ struct ImmersiveView: View {
 			contentView = content
 			
 			collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil, componentType: nil) { event in
-				print("Collision detected between \(event.entityA) and \(event.entityB)")
+//				print("Collision detected between \(event.entityA) and \(event.entityB)")
 				
 				if (event.entityA.name == "SPELL" && event.entityB.name == "ENEMY") {
 					event.entityA.removeFromParent()
@@ -37,7 +37,7 @@ struct ImmersiveView: View {
 			}
 			
 			// A 20m box that receives hits.
-			let collisionBox = makeCollisionBox(size: 20)
+			let collisionBox = makeCollisionBox(size: 30)
 			
 			content.add(collisionBox)
 			
@@ -49,7 +49,6 @@ struct ImmersiveView: View {
 			// https://developer.apple.com/
         }
 		.gesture(SpatialTapGesture().targetedToAnyEntity().onEnded { value in
-						print("Spatial tap gesture")
 			let location3D = value.convert(value.location3D, from: .local, to: .scene)
 			addCube(tapLocation: location3D)
 		})
@@ -58,13 +57,14 @@ struct ImmersiveView: View {
 			if true { // !gameModel.isPaused
 				Task { @MainActor () -> Void in
 					do {
-						let spawnAmount = 2
-						for _ in (0..<spawnAmount) {
-							spawnEnemy(environmentResource!)
-							try await Task.sleep(for: .milliseconds(1000))
-						}
+						let spawnAmount = 1
+						spawnEnemy(environmentResource!)
+//						for _ in (0..<spawnAmount) {
+//							spawnEnemy(environmentResource!)
+//							try await Task.sleep(for: .milliseconds(5000))
+//						}
 					} catch {
-						print("Error spawning a cloud:", error)
+						print("Error spawning an enemy:", error)
 					}
 						
 				}
@@ -82,10 +82,10 @@ struct ImmersiveView: View {
 		
 		let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
 		
-		let enemy = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
+		let enemy = ModelEntity(mesh: .generateBox(size: [0.5,0.5,0.5]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
 		enemy.components.set(iblComponent)
 		enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
-		enemy.collision = CollisionComponent(shapes: [.generateBox(size: [1, 1, 1])])
+		enemy.collision = CollisionComponent(shapes: [.generateBox(size: [0.6, 0.6, 0.6])])
 		enemy.collision?.filter.group = enemies
 		enemy.collision?.filter.mask = spells
 		enemy.name = "ENEMY"
