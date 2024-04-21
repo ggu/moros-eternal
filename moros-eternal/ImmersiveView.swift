@@ -12,12 +12,26 @@ import RealityKitContent
 var contentView: RealityViewContent?
 var environmentResource: EnvironmentResource?
 
+let enemies: CollisionGroup = CollisionGroup(rawValue: 1 << 0)
+let spells: CollisionGroup = CollisionGroup(rawValue: 1 << 1)
+
 struct ImmersiveView: View {
 	var contentEntity = Entity()
+	@State private var collisionSubscription: EventSubscription?
 
     var body: some View {
         RealityView { content in
 			contentView = content
+			
+			collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil, componentType: nil) { event in
+				print("Collision detected between \(event.entityA) and \(event.entityB)")
+				
+				if (event.entityA.name == "SPELL" && event.entityB.name == "ENEMY") {
+					event.entityB.removeFromParent()
+				} else if (event.entityA.name == "ENEMY" && event.entityB.name == "SPELL") {
+					event.entityA.removeFromParent()
+				}
+			}
 			
 			// A 20m box that receives hits.
 			let collisionBox = makeCollisionBox(size: 20)
@@ -31,6 +45,10 @@ struct ImmersiveView: View {
 			let enemy = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
 			enemy.components.set(iblComponent)
 			enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
+			enemy.collision = CollisionComponent(shapes: [.generateBox(size: [1, 1, 1])])
+			enemy.collision?.filter.group = enemies
+			enemy.collision?.filter.mask = spells
+			enemy.name = "ENEMY"
 			
 			let start = Point3D(
 				x: enemyPaths[enemyPathsIndex].0,
@@ -68,7 +86,6 @@ struct ImmersiveView: View {
     }
 	
 	func addCube(tapLocation: SIMD3<Float>) {
-		print("Adding cube at \(tapLocation)")
 //		let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
 		let placementLocation = SIMD3<Float>(0, 0.5, 0)
 		let finalLocation = tapLocation + SIMD3<Float>(0, 0, -10)
@@ -79,17 +96,12 @@ struct ImmersiveView: View {
 		let spell = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .blue, isMetallic: false)])
 		spell.components.set(iblComponent)
 		spell.components.set(ImageBasedLightReceiverComponent(imageBasedLight: spell))
+		spell.name = "SPELL"
 
 		spell.setPosition(placementLocation, relativeTo: nil)
-
-//		let material = PhysicsMaterialResource.generate(friction: 0.8, restitution: 0.0)
-//		entity.components.set(
-//			PhysicsBodyComponent(
-//				shapes: entity.collision!.shapes,
-//				mass: 1.0,
-//				material: material,
-//				mode: .dynamic)
-//		)
+		spell.collision = CollisionComponent(shapes: [.generateBox(size: [1, 1, 1])])
+		spell.collision?.filter.group = spells
+		spell.collision?.filter.mask = enemies
 
 		contentView!.add(spell)
 		
