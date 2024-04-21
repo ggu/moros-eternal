@@ -124,13 +124,13 @@ struct ImmersiveView: View {
 		
 		let iblComponent = ImageBasedLightComponent(source: .single(environmentResource!), intensityExponent: 0.25)
 
-		let spell = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .blue, isMetallic: false)])
+		let spell = ModelEntity(mesh: .generateBox(size: [0.1,0.1,0.1]), materials: [SimpleMaterial(color: .blue, isMetallic: false)])
 		spell.components.set(iblComponent)
 		spell.components.set(ImageBasedLightReceiverComponent(imageBasedLight: spell))
 		spell.name = "SPELL"
 
 		spell.setPosition(placementLocation, relativeTo: nil)
-		spell.collision = CollisionComponent(shapes: [.generateBox(size: [1, 1, 1])])
+		spell.collision = CollisionComponent(shapes: [.generateBox(size: [0.1, 0.1, 0.1])])
 		spell.collision?.filter.group = spells
 		spell.collision?.filter.mask = enemies
 
