@@ -122,7 +122,7 @@ struct ImmersiveView: View {
 	func initializeAssets() {		
 		enemyTemplate = try! Entity.load(named: "Demon_Dragon_Full_Texture.usdz")
 
-		enemyTemplate!.setScale(.init(repeating: 0.01), relativeTo: nil)
+		enemyTemplate!.setScale(.init(repeating: 0.005), relativeTo: nil)
 		
 		let def = enemyTemplate!.availableAnimations[0].definition
 		enemyAnimation = try! AnimationResource.generate(with: AnimationView(source: def, trimStart: 0.0, trimEnd: 7.0))
@@ -132,15 +132,16 @@ struct ImmersiveView: View {
 		
 		let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
 		let entity = enemyTemplate!.clone(recursive: true)
-		// TODO: clone for performance
+		entity.position = simd_float([0, -1, 0])
 		
 		entity.playAnimation(enemyAnimation!.repeat(count: 100))
 
 		let enemy = ModelEntity()
+		//let enemy = ModelEntity(mesh: .generateBox(size: simd_float3(1.0, 0.5, 1.0)))
 		enemy.addChild(entity)
 		enemy.components.set(iblComponent)
 		enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
-		enemy.collision = CollisionComponent(shapes: [.generateBox(size: [0.6, 0.6, 0.6])])
+		enemy.collision = CollisionComponent(shapes: [.generateBox(size: .init(repeating: 1.0))])
 		enemy.collision?.filter.group = enemies
 		enemy.collision?.filter.mask = spells
 		enemy.name = "ENEMY" + String(enemy.id)
