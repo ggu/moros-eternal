@@ -18,6 +18,7 @@ let spells: CollisionGroup = CollisionGroup(rawValue: 1 << 1)
 struct ImmersiveView: View {
 	var contentEntity = Entity()
 	@State private var collisionSubscription: EventSubscription?
+	@State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         RealityView { content in
@@ -42,40 +43,7 @@ struct ImmersiveView: View {
 			
 			guard let resource = try? await EnvironmentResource(named: "ImageBasedLight") else { return }
 			environmentResource = resource
-			let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
 			
-			let enemy = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
-			enemy.components.set(iblComponent)
-			enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
-			enemy.collision = CollisionComponent(shapes: [.generateBox(size: [1, 1, 1])])
-			enemy.collision?.filter.group = enemies
-			enemy.collision?.filter.mask = spells
-			enemy.name = "ENEMY"
-			
-			let start = Point3D(
-				x: enemyPaths[enemyPathsIndex].0,
-				y: enemyPaths[enemyPathsIndex].1,
-				z: enemyPaths[enemyPathsIndex].2
-			)
-			enemy.position = simd_float(start.vector + .init(x: 0, y: 0, z: -0.7))
-			content.add(enemy)
-			
-			enemyPathsIndex += 1
-			enemyPathsIndex %= enemyPaths.count
-			
-			let end = Point3D(x: 0, y: 0, z: 0)
-			let line = FromToByAnimation<Transform>(
-				name: "line",
-				from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
-				to: .init(scale: .init(repeating: 1), translation: simd_float(end.vector)),
-				duration: EnemySpawnParameters.speed,
-				bindTarget: .transform
-			)
-			
-			let animation = try! AnimationResource
-				.generate(with: line)
-			
-			enemy.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
 //
 			// Put skybox here.  See example in World project available at
 			// https://developer.apple.com/
@@ -85,7 +53,68 @@ struct ImmersiveView: View {
 			let location3D = value.convert(value.location3D, from: .local, to: .scene)
 			addCube(tapLocation: location3D)
 		})
+		.onReceive(timer) { _ in
+			
+			if true { // !gameModel.isPaused
+				Task { @MainActor () -> Void in
+					do {
+						let spawnAmount = 2
+						for _ in (0..<spawnAmount) {
+							spawnEnemy(environmentResource!)
+							try await Task.sleep(for: .milliseconds(1000))
+						}
+					} catch {
+						print("Error spawning a cloud:", error)
+					}
+						
+				}
+			}
+//				else if gameModel.timeLeft == 0 {
+//					print("Game finished.")
+//					gameModel.isFinished = true
+//					gameModel.timeLeft = -1
+//				}
+			
+		}
     }
+	
+	func spawnEnemy(_ resource: EnvironmentResource) {
+		
+		let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
+		
+		let enemy = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
+		enemy.components.set(iblComponent)
+		enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
+		enemy.collision = CollisionComponent(shapes: [.generateBox(size: [1, 1, 1])])
+		enemy.collision?.filter.group = enemies
+		enemy.collision?.filter.mask = spells
+		enemy.name = "ENEMY"
+		
+		let start = Point3D(
+			x: enemyPaths[enemyPathsIndex].0,
+			y: enemyPaths[enemyPathsIndex].1,
+			z: enemyPaths[enemyPathsIndex].2
+		)
+		enemy.position = simd_float(start.vector + .init(x: 0, y: 0, z: -0.7))
+		contentView!.add(enemy)
+		
+		enemyPathsIndex += 1
+		enemyPathsIndex %= enemyPaths.count
+		
+		let end = Point3D(x: 0, y: 0, z: 0)
+		let line = FromToByAnimation<Transform>(
+			name: "line",
+			from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
+			to: .init(scale: .init(repeating: 1), translation: simd_float(end.vector)),
+			duration: EnemySpawnParameters.speed,
+			bindTarget: .transform
+		)
+		
+		let animation = try! AnimationResource
+			.generate(with: line)
+		
+		enemy.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
+	}
 	
 	func addCube(tapLocation: SIMD3<Float>) {
 //		let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
