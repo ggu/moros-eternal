@@ -21,6 +21,9 @@ var isGameOver = false
 
 var score = 0
 
+var enemyTemplate: Entity? = nil
+var enemyAnimation: AnimationResource?
+
 struct ImmersiveView: View {
 	var contentEntity = Entity()
 	@State private var collisionSubscription: EventSubscription?
@@ -54,6 +57,8 @@ struct ImmersiveView: View {
 					enemyEntities.remove(at: index!)
 				}
 			}
+			
+			initializeAssets()
 			
 			// A 20m box that receives hits.
 			let collisionBox = makeCollisionBox(size: 30)
@@ -111,11 +116,28 @@ struct ImmersiveView: View {
 		}
     }
 	
+
+	
+	/// Preload assets when the app launches to avoid pop-in during the game.
+	func initializeAssets() {		
+		enemyTemplate = try! Entity.load(named: "Demon_Dragon_Full_Texture.usdz")
+
+		enemyTemplate!.setScale(.init(repeating: 0.01), relativeTo: nil)
+		
+		let def = enemyTemplate!.availableAnimations[0].definition
+		enemyAnimation = try! AnimationResource.generate(with: AnimationView(source: def, trimStart: 0.0, trimEnd: 7.0))
+	}
+	
 	func spawnEnemy(_ resource: EnvironmentResource) {
 		
 		let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
+		let entity = enemyTemplate!.clone(recursive: true)
+		// TODO: clone for performance
 		
-		let enemy = ModelEntity(mesh: .generateBox(size: [0.5,0.5,0.5]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
+		entity.playAnimation(enemyAnimation!.repeat(count: 100))
+
+		let enemy = ModelEntity()
+		enemy.addChild(entity)
 		enemy.components.set(iblComponent)
 		enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
 		enemy.collision = CollisionComponent(shapes: [.generateBox(size: [0.6, 0.6, 0.6])])

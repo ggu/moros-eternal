@@ -15,6 +15,7 @@
 		767367F72BD4751F00513603 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767367F62BD4751F00513603 /* Assets.xcassets */; };
 		767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767367F92BD4751F00513603 /* Preview Assets.xcassets */; };
 		767368052BD56F7100513603 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767368042BD56F7100513603 /* GameOverView.swift */; };
+		7673680C2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		767367F92BD4751F00513603 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		767367FB2BD4751F00513603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		767368042BD56F7100513603 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
+		7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Demon_Dragon_Full_Texture.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		767367E92BD4751E00513603 /* moros-eternal */ = {
 			isa = PBXGroup;
 			children = (
+				767368082BD587A900513603 /* USDZs */,
 				767367EE2BD4751E00513603 /* moros_eternalApp.swift */,
 				767367F02BD4751E00513603 /* ContentView.swift */,
 				767367F22BD4751E00513603 /* ImmersiveView.swift */,
@@ -88,6 +91,14 @@
 				767367F92BD4751F00513603 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		767368082BD587A900513603 /* USDZs */ = {
+			isa = PBXGroup;
+			children = (
+				7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */,
+			);
+			path = USDZs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +163,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				767367F72BD4751F00513603 /* Assets.xcassets in Resources */,
+				7673680C2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz in Resources */,
 				767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */,
 				767367F52BD4751E00513603 /* ImageBasedLighting.skybox in Resources */,
 			);
