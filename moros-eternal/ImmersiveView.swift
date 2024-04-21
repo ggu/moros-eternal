@@ -22,6 +22,7 @@ var isGameOver = false
 var score = 0
 
 var enemyTemplate: Entity? = nil
+var spellTemplate: Entity? = nil
 var enemyAnimation: AnimationResource?
 
 struct ImmersiveView: View {
@@ -128,8 +129,11 @@ struct ImmersiveView: View {
 		enemyAnimation = try! AnimationResource.generate(with: AnimationView(source: def, trimStart: 0.0, trimEnd: 7.0))
 		
 		let skybox = try! Entity.load(named: "Skybox.usda", in: realityKitContentBundle)
-		skybox.setScale(SIMD3<Float>(repeating: 100), relativeTo: nil)
+		skybox.setScale(SIMD3<Float>(repeating: 10), relativeTo: nil)
 		contentView!.add(skybox)
+		
+		spellTemplate = try! Entity.load(named: "Spell.usda", in: realityKitContentBundle)
+
 	}
 	
 	func spawnEnemy(_ resource: EnvironmentResource) {
@@ -179,13 +183,18 @@ struct ImmersiveView: View {
 	
 	func addCube(tapLocation: SIMD3<Float>) {
 //		let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
-		let placementLocation = SIMD3<Float>(0, 1.0, 0)
+		let placementLocation = SIMD3<Float>(0, 1.0, 0.3)
 		let finalLocation = tapLocation + SIMD3<Float>(0, 0, -1)
 
 		
 		let iblComponent = ImageBasedLightComponent(source: .single(environmentResource!), intensityExponent: 0.25)
+		
+		let entity = spellTemplate!.clone(recursive: true)
+		entity.position = simd_float([0, 0, 0])
 
-		let spell = ModelEntity(mesh: .generateBox(size: [0.1,0.1,0.1]), materials: [SimpleMaterial(color: .blue, isMetallic: false)])
+//		let spell = ModelEntity(mesh: .generateBox(size: [0.1,0.1,0.1]), materials: [SimpleMaterial(color: .clear, isMetallic: false)])
+		let spell = ModelEntity()
+		spell.addChild(entity)
 		spell.components.set(iblComponent)
 		spell.components.set(ImageBasedLightReceiverComponent(imageBasedLight: spell))
 		spell.name = "SPELL"
