@@ -19,6 +19,8 @@ var enemyEntities: [Entity] = []
 
 var isGameOver = false
 
+var score = 0
+
 struct ImmersiveView: View {
 	var contentEntity = Entity()
 	@State private var collisionSubscription: EventSubscription?
@@ -33,6 +35,7 @@ struct ImmersiveView: View {
 //				print("Collision detected between \(event.entityA) and \(event.entityB)")
 				
 				if (event.entityA.name == "SPELL" && event.entityB.name.hasPrefix("ENEMY")) {
+					score += 1
 					event.entityA.removeFromParent()
 					event.entityB.removeFromParent()
 					
@@ -41,6 +44,7 @@ struct ImmersiveView: View {
 					}
 					enemyEntities.remove(at: index!)
 				} else if (event.entityA.name.hasPrefix("ENEMY") && event.entityB.name == "SPELL") {
+					score += 1
 					event.entityA.removeFromParent()
 					event.entityB.removeFromParent()
 					

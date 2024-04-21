@@ -25,11 +25,13 @@ struct GameOverView: View {
 				.padding(24)
 				.glassBackgroundEffect()
 			
+			Text("Score: \(score)")
+			
 			Button("Replay") {
-//				ContentView.showImmersiveSpace = false
 				Task {
 					await dismissImmersiveSpace()
 					isGameOver = false
+					score = 0
 					await openImmersiveSpace(id: "ImmersiveSpace")
 					dismissWindow(id: "GameOverView")
 				}
