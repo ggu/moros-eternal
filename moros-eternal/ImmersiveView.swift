@@ -27,9 +27,11 @@ struct ImmersiveView: View {
 				print("Collision detected between \(event.entityA) and \(event.entityB)")
 				
 				if (event.entityA.name == "SPELL" && event.entityB.name == "ENEMY") {
+					event.entityA.removeFromParent()
 					event.entityB.removeFromParent()
 				} else if (event.entityA.name == "ENEMY" && event.entityB.name == "SPELL") {
 					event.entityA.removeFromParent()
+					event.entityB.removeFromParent()
 				}
 			}
 			
