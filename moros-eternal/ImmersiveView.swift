@@ -82,12 +82,12 @@ struct ImmersiveView: View {
 				Task { @MainActor () -> Void in
 					do {
 //						let spawnAmount = 1
-						spawnEnemy(environmentResource!)
+						guard let resource = environmentResource else { return }
+						spawnEnemy(resource)
 						enemyEntities.forEach { entity in
 							let isEqualResult = isEqual(lhs: entity.position, rhs: simd_float([0, 0, 0]), epsilon: 0.001)
 
 							if (isEqualResult) {
-								// TODO: score
 								if (!isGameOver) {
 									openWindow(id: "GameOverView")
 								}
