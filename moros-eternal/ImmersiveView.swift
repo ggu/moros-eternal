@@ -9,10 +9,23 @@ import SwiftUI
 import RealityKit
 import RealityKitContent
 
+var contentView: RealityViewContent?
+var environmentResource: EnvironmentResource?
+
 struct ImmersiveView: View {
+	var contentEntity = Entity()
+
     var body: some View {
         RealityView { content in
+			contentView = content
+			
+			// A 20m box that receives hits.
+			let collisionBox = makeCollisionBox(size: 20)
+			
+			content.add(collisionBox)
+			
 			guard let resource = try? await EnvironmentResource(named: "ImageBasedLight") else { return }
+			environmentResource = resource
 			let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
 			
 			let enemy = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
@@ -30,9 +43,7 @@ struct ImmersiveView: View {
 			enemyPathsIndex += 1
 			enemyPathsIndex %= enemyPaths.count
 			
-			let animationStart = Point3D(enemy.position)
 			let end = Point3D(x: 0, y: 0, z: 0)
-//			content.realityScene.cameraTransform.translation
 			let line = FromToByAnimation<Transform>(
 				name: "line",
 				from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
@@ -49,7 +60,107 @@ struct ImmersiveView: View {
 			// Put skybox here.  See example in World project available at
 			// https://developer.apple.com/
         }
+		.gesture(SpatialTapGesture().targetedToAnyEntity().onEnded { value in
+						print("Spatial tap gesture")
+			let location3D = value.convert(value.location3D, from: .local, to: .scene)
+			addCube(tapLocation: location3D)
+		})
     }
+	
+	func addCube(tapLocation: SIMD3<Float>) {
+		print("Adding cube at \(tapLocation)")
+//		let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
+		let placementLocation = SIMD3<Float>(0, 0.5, 0)
+		let finalLocation = tapLocation + SIMD3<Float>(0, 0, -10)
+
+		
+		let iblComponent = ImageBasedLightComponent(source: .single(environmentResource!), intensityExponent: 0.25)
+
+		let spell = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .blue, isMetallic: false)])
+		spell.components.set(iblComponent)
+		spell.components.set(ImageBasedLightReceiverComponent(imageBasedLight: spell))
+
+		spell.setPosition(placementLocation, relativeTo: nil)
+
+//		let material = PhysicsMaterialResource.generate(friction: 0.8, restitution: 0.0)
+//		entity.components.set(
+//			PhysicsBodyComponent(
+//				shapes: entity.collision!.shapes,
+//				mass: 1.0,
+//				material: material,
+//				mode: .dynamic)
+//		)
+
+		contentView!.add(spell)
+		
+		let line = FromToByAnimation<Transform>(
+			name: "line",
+			from: .init(scale: .init(repeating: 1), translation: placementLocation),
+			to: .init(scale: .init(repeating: 1), translation: finalLocation),
+			duration: EnemySpawnParameters.speed / 4,
+			bindTarget: .transform
+		)
+		
+		let animation = try! AnimationResource
+			.generate(with: line)
+		
+		spell.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
+	}
+	
+	func makeCollisionBox(size: Float) -> Entity {
+		
+		let smallDimension: Float = 0.001
+		let offset = size / 2
+		
+		// right face
+		let right = Entity()
+		right.name = "right"
+		right.components.set(CollisionComponent(shapes: [.generateBox(width: smallDimension, height: size, depth: size)]))
+		right.position.x = offset
+		
+		// left face
+		let left = Entity()
+		left.name = "left"
+		left.components.set(CollisionComponent(shapes: [.generateBox(width: smallDimension, height: size, depth: size)]))
+		left.position.x = -offset
+		
+		// top face
+		let top = Entity()
+		top.name = "top"
+		top.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: smallDimension, depth: size)]))
+		top.position.y = offset
+		
+		// bottom face
+		let bottom = Entity()
+		bottom.name = "bottom"
+		bottom.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: smallDimension, depth: size)]))
+		bottom.position.y = -offset
+		
+		// front face
+		let front = Entity()
+		front.name = "front"
+		front.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: size, depth: smallDimension)]))
+		front.position.z = offset
+		
+		// back face
+		let back = Entity()
+		back.name = "back"
+		back.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: size, depth: smallDimension)]))
+		back.position.z = -offset
+		
+		// All faces.
+		let faces = [right, left, top, bottom, front, back]
+		
+		for face in faces {
+			face.components.set(InputTargetComponent())
+		}
+		
+		// parent to hold all of the entities.
+		let entity = Entity()
+		entity.children.append(contentsOf: faces)
+			
+		return entity
+	}
 }
 
 /// Enemy spawn parameters (in meters).
