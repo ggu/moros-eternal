@@ -15,6 +15,8 @@ var environmentResource: EnvironmentResource?
 let enemies: CollisionGroup = CollisionGroup(rawValue: 1 << 0)
 let spells: CollisionGroup = CollisionGroup(rawValue: 1 << 1)
 
+var enemyEntities: [Entity] = []
+
 struct ImmersiveView: View {
 	var contentEntity = Entity()
 	@State private var collisionSubscription: EventSubscription?
@@ -27,12 +29,22 @@ struct ImmersiveView: View {
 			collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil, componentType: nil) { event in
 //				print("Collision detected between \(event.entityA) and \(event.entityB)")
 				
-				if (event.entityA.name == "SPELL" && event.entityB.name == "ENEMY") {
+				if (event.entityA.name == "SPELL" && event.entityB.name.hasPrefix("ENEMY")) {
 					event.entityA.removeFromParent()
 					event.entityB.removeFromParent()
-				} else if (event.entityA.name == "ENEMY" && event.entityB.name == "SPELL") {
+					
+					let index = enemyEntities.firstIndex { entity in
+						entity.name == "ENEMY" + String(event.entityB.id)
+					}
+					enemyEntities.remove(at: index!)
+				} else if (event.entityA.name.hasPrefix("ENEMY") && event.entityB.name == "SPELL") {
 					event.entityA.removeFromParent()
 					event.entityB.removeFromParent()
+					
+					let index = enemyEntities.firstIndex { entity in
+						entity.name == "ENEMY" + String(event.entityA.id)
+					}
+					enemyEntities.remove(at: index!)
 				}
 			}
 			
@@ -57,14 +69,20 @@ struct ImmersiveView: View {
 			if true { // !gameModel.isPaused
 				Task { @MainActor () -> Void in
 					do {
-						let spawnAmount = 1
+//						let spawnAmount = 1
 						spawnEnemy(environmentResource!)
+						enemyEntities.forEach { entity in
+							let isEqualResult = isEqual(lhs: entity.position, rhs: simd_float([0, 0, 0]), epsilon: 0.001)
+
+							if (isEqualResult) {
+								// TODO: lose the game window popup with replay button
+								print("Game over.")
+							}
+						}
 //						for _ in (0..<spawnAmount) {
 //							spawnEnemy(environmentResource!)
 //							try await Task.sleep(for: .milliseconds(5000))
 //						}
-					} catch {
-						print("Error spawning an enemy:", error)
 					}
 						
 				}
@@ -88,7 +106,7 @@ struct ImmersiveView: View {
 		enemy.collision = CollisionComponent(shapes: [.generateBox(size: [0.6, 0.6, 0.6])])
 		enemy.collision?.filter.group = enemies
 		enemy.collision?.filter.mask = spells
-		enemy.name = "ENEMY"
+		enemy.name = "ENEMY" + String(enemy.id)
 		
 		let start = Point3D(
 			x: enemyPaths[enemyPathsIndex].0,
@@ -114,6 +132,7 @@ struct ImmersiveView: View {
 			.generate(with: line)
 		
 		enemy.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
+		enemyEntities.append(enemy)
 	}
 	
 	func addCube(tapLocation: SIMD3<Float>) {
@@ -236,7 +255,15 @@ let enemyPaths: [(Double, Double, Double)] = [
 	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.525_853_388_894_509),
 	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.164_641_191_459_626)]
 
-
+   func isEqual<T: SIMD>(lhs: T, rhs: T, epsilon: T.Scalar) -> Bool where T.Scalar: FloatingPoint {
+	   for i in 0..<lhs.scalarCount {
+		   if abs(lhs[i] - rhs[i]) > epsilon {
+			   return false
+		   }
+	   }
+	   return true
+   }
+																   
 #Preview(immersionStyle: .full) {
     ImmersiveView()
 }
