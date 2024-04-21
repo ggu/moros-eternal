@@ -12,7 +12,11 @@ struct moros_eternalApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+
         }
+		WindowGroup(id: "GameOverView") {
+			GameOverView()
+		}
 
         ImmersiveSpace(id: "ImmersiveSpace") {
             ImmersiveView()

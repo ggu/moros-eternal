@@ -17,10 +17,13 @@ let spells: CollisionGroup = CollisionGroup(rawValue: 1 << 1)
 
 var enemyEntities: [Entity] = []
 
+var isGameOver = false
+
 struct ImmersiveView: View {
 	var contentEntity = Entity()
 	@State private var collisionSubscription: EventSubscription?
 	@State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+	@Environment(\.openWindow) private var openWindow
 
     var body: some View {
         RealityView { content in
@@ -75,8 +78,16 @@ struct ImmersiveView: View {
 							let isEqualResult = isEqual(lhs: entity.position, rhs: simd_float([0, 0, 0]), epsilon: 0.001)
 
 							if (isEqualResult) {
-								// TODO: lose the game window popup with replay button
-								print("Game over.")
+								// TODO: score
+								if (!isGameOver) {
+									openWindow(id: "GameOverView")
+								}
+								isGameOver = true
+								entity.removeFromParent()
+								let index = enemyEntities.firstIndex { entity2 in
+									entity.name == "ENEMY" + String(entity.id)
+								}
+								enemyEntities.remove(at: index!)
 							}
 						}
 //						for _ in (0..<spawnAmount) {
