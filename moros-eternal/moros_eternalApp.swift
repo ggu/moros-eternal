@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct moros_eternalApp: App {
     var body: some Scene {
-        WindowGroup {
+		WindowGroup(id: "ContentView") {
             ContentView()
 
         }

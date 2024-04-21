@@ -16,39 +16,36 @@ struct ContentView: View {
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
+	@Environment(\.dismissWindow) var dismissWindow
 
     var body: some View {
         VStack {
-            Model3D(named: "Scene", bundle: realityKitContentBundle)
+			Spacer()
+            Model3D(named: "Demon_Dragon_Full_Texture.usdz")
                 .padding(.bottom, 50)
+				.scaleEffect(0.5)
 
-            Text("Hello, world!")
-
-            Toggle("Show ImmersiveSpace", isOn: $showImmersiveSpace)
-                .font(.title)
-                .frame(width: 360)
-                .padding(24)
-                .glassBackgroundEffect()
+            Text("Moros: Academy")
+				.font(.title)
+			
+			Button("Start Game", action: {
+				Task {
+					switch await openImmersiveSpace(id: "ImmersiveSpace") {
+					case .opened:
+						immersiveSpaceIsShown = true
+						dismissWindow(id: "ContentView")
+					case .error, .userCancelled:
+						fallthrough
+					@unknown default:
+						immersiveSpaceIsShown = false
+						showImmersiveSpace = false
+					}
+				}
+			})
+			.font(.title)
+			.padding(24)
         }
         .padding()
-        .onChange(of: showImmersiveSpace) { _, newValue in
-            Task {
-                if newValue {
-                    switch await openImmersiveSpace(id: "ImmersiveSpace") {
-                    case .opened:
-                        immersiveSpaceIsShown = true
-                    case .error, .userCancelled:
-                        fallthrough
-                    @unknown default:
-                        immersiveSpaceIsShown = false
-                        showImmersiveSpace = false
-                    }
-                } else if immersiveSpaceIsShown {
-                    await dismissImmersiveSpace()
-                    immersiveSpaceIsShown = false
-                }
-            }
-        }
     }
 }
 
