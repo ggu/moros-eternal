@@ -126,6 +126,10 @@ struct ImmersiveView: View {
 		
 		let def = enemyTemplate!.availableAnimations[0].definition
 		enemyAnimation = try! AnimationResource.generate(with: AnimationView(source: def, trimStart: 0.0, trimEnd: 7.0))
+		
+		let skybox = try! Entity.load(named: "Skybox.usda", in: realityKitContentBundle)
+		skybox.setScale(SIMD3<Float>(repeating: 100), relativeTo: nil)
+		contentView!.add(skybox)
 	}
 	
 	func spawnEnemy(_ resource: EnvironmentResource) {
