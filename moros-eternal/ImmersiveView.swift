@@ -12,35 +12,42 @@ import RealityKitContent
 struct ImmersiveView: View {
     var body: some View {
         RealityView { content in
-            // Add the initial RealityKit content
-            if let immersiveContentEntity = try? await Entity(named: "Immersive", in: realityKitContentBundle) {
-                content.add(immersiveContentEntity)
-
-                // Add an ImageBasedLight for the immersive content
-                guard let resource = try? await EnvironmentResource(named: "ImageBasedLight") else { return }
-                let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
-                immersiveContentEntity.components.set(iblComponent)
-                immersiveContentEntity.components.set(ImageBasedLightReceiverComponent(imageBasedLight: immersiveContentEntity))
-				
-				let enemy = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
-				enemy.components.set(iblComponent)
-				enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
-				
-				let start = Point3D(
-					x: enemyPaths[enemyPathsIndex].0,
-					y: enemyPaths[enemyPathsIndex].1,
-					z: enemyPaths[enemyPathsIndex].2
-				)
-				enemy.position = simd_float(start.vector + .init(x: 0, y: 0, z: -0.7))
-				content.add(enemy)
-				
-				// Needs to increment *after* spawnCloudExact()
-				enemyPathsIndex += 1
-				enemyPathsIndex %= enemyPaths.count
-				
-                // Put skybox here.  See example in World project available at
-                // https://developer.apple.com/
-            }
+			guard let resource = try? await EnvironmentResource(named: "ImageBasedLight") else { return }
+			let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
+			
+			let enemy = ModelEntity(mesh: .generateBox(size: [1,1,1]), materials: [SimpleMaterial(color: .red, isMetallic: false)])
+			enemy.components.set(iblComponent)
+			enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
+			
+			let start = Point3D(
+				x: enemyPaths[enemyPathsIndex].0,
+				y: enemyPaths[enemyPathsIndex].1,
+				z: enemyPaths[enemyPathsIndex].2
+			)
+			enemy.position = simd_float(start.vector + .init(x: 0, y: 0, z: -0.7))
+			content.add(enemy)
+			
+			enemyPathsIndex += 1
+			enemyPathsIndex %= enemyPaths.count
+			
+			let animationStart = Point3D(enemy.position)
+			let end = Point3D(x: 0, y: 0, z: 0)
+//			content.realityScene.cameraTransform.translation
+			let line = FromToByAnimation<Transform>(
+				name: "line",
+				from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
+				to: .init(scale: .init(repeating: 1), translation: simd_float(end.vector)),
+				duration: EnemySpawnParameters.speed,
+				bindTarget: .transform
+			)
+			
+			let animation = try! AnimationResource
+				.generate(with: line)
+			
+			enemy.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
+//
+			// Put skybox here.  See example in World project available at
+			// https://developer.apple.com/
         }
     }
 }
