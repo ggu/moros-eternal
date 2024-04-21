@@ -118,8 +118,8 @@ struct ImmersiveView: View {
 	
 	func addCube(tapLocation: SIMD3<Float>) {
 //		let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
-		let placementLocation = SIMD3<Float>(0, 0.5, 0)
-		let finalLocation = tapLocation + SIMD3<Float>(0, 0, -10)
+		let placementLocation = SIMD3<Float>(0, 1.0, 0)
+		let finalLocation = tapLocation + SIMD3<Float>(0, 0, -1)
 
 		
 		let iblComponent = ImageBasedLightComponent(source: .single(environmentResource!), intensityExponent: 0.25)
@@ -140,7 +140,7 @@ struct ImmersiveView: View {
 			name: "line",
 			from: .init(scale: .init(repeating: 1), translation: placementLocation),
 			to: .init(scale: .init(repeating: 1), translation: finalLocation),
-			duration: EnemySpawnParameters.speed / 4,
+			duration: EnemySpawnParameters.speed / 10,
 			bindTarget: .transform
 		)
 		
