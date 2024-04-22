@@ -29,6 +29,7 @@ var impactTemplate: Entity? = nil
 var enemyAnimation: AnimationResource?
 
 var spellSound: AudioFileResource?
+var enemyHitSound: AudioFileResource?
 
 var timeElapsed = 0
 
@@ -56,7 +57,13 @@ struct ImmersiveView: View {
 					if let impact = impactTemplate?.clone(recursive: true) {
 						impact.setPosition(event.entityB.position(relativeTo: nil), relativeTo: nil)
 						contentView!.add(impact)
+						if let enemyHitSoundLoaded = enemyHitSound {
+							let audioController = impact.prepareAudio(enemyHitSoundLoaded)
+							audioController.gain = 30
+							audioController.play()
+						}
 					}
+					
 				} else if (event.entityA.name.hasPrefix("ENEMY") && event.entityB.name == "SPELL") {
 					score += 1
 					event.entityA.removeFromParent()
@@ -69,6 +76,11 @@ struct ImmersiveView: View {
 					if let impact = impactTemplate?.clone(recursive: true) {
 						impact.setPosition(event.entityA.position(relativeTo: nil), relativeTo: nil)
 						contentView!.add(impact)
+						if let enemyHitSoundLoaded = enemyHitSound {
+							let audioController = impact.prepareAudio(enemyHitSoundLoaded)
+							audioController.gain = 30
+							audioController.play()
+						}
 					}
 				}
 			}
@@ -154,6 +166,7 @@ struct ImmersiveView: View {
 			do {
 				audioPlayer = try AVAudioPlayer(contentsOf: url)
 				audioPlayer?.numberOfLoops = -1
+				audioPlayer?.volume = 0.5
 				audioPlayer?.play()
 
 			} catch {
@@ -184,6 +197,7 @@ struct ImmersiveView: View {
 		
 		Task {
 			spellSound = try await AudioFileResource(named: "FireballSound.wav")
+			enemyHitSound = try await AudioFileResource(named: "EnemyDeath.mp3")
 		}
 	}
 	
