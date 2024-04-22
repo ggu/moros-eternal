@@ -25,6 +25,8 @@ var enemyTemplate: Entity? = nil
 var spellTemplate: Entity? = nil
 var enemyAnimation: AnimationResource?
 
+var timeElapsed = 0
+
 struct ImmersiveView: View {
 	var contentEntity = Entity()
 	@State private var collisionSubscription: EventSubscription?
@@ -82,9 +84,17 @@ struct ImmersiveView: View {
 			if true { // !gameModel.isPaused
 				Task { @MainActor () -> Void in
 					do {
-//						let spawnAmount = 1
-						guard let resource = environmentResource else { return }
-						spawnEnemy(resource)
+						timeElapsed += 1
+						if (timeElapsed % 3 == 0) {
+							let spawnAmount = Int(ceil(Double(timeElapsed) / 30.0)) // 30
+							guard let resource = environmentResource else { return }
+							for _ in (0..<spawnAmount) {
+								spawnEnemy(environmentResource!)
+								try await Task.sleep(for: .milliseconds(300))
+							}
+							spawnEnemy(resource)
+						}
+						
 						enemyEntities.forEach { entity in
 							let isEqualResult = isEqual(lhs: entity.position, rhs: simd_float([0, 0, 0]), epsilon: 0.001)
 
@@ -100,10 +110,7 @@ struct ImmersiveView: View {
 								enemyEntities.remove(at: index!)
 							}
 						}
-//						for _ in (0..<spawnAmount) {
-//							spawnEnemy(environmentResource!)
-//							try await Task.sleep(for: .milliseconds(5000))
-//						}
+
 					}
 						
 				}
@@ -170,7 +177,7 @@ struct ImmersiveView: View {
 			name: "line",
 			from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
 			to: .init(scale: .init(repeating: 1), translation: simd_float(end.vector)),
-			duration: EnemySpawnParameters.speed,
+			duration: EnemySpawnParameters.speed - log2(Double(timeElapsed) / 10.0),
 			bindTarget: .transform
 		)
 		
