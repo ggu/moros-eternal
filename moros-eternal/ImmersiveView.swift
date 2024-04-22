@@ -35,6 +35,8 @@ var timeElapsed = 0
 
 struct ImmersiveView: View {
 	@State private var collisionSubscription: EventSubscription?
+	@State private var animationSubscription: EventSubscription?
+
 	@State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 	@Environment(\.openWindow) private var openWindow
 
@@ -42,6 +44,26 @@ struct ImmersiveView: View {
         RealityView { content in
 			contentView = content
 			
+			animationSubscription = content.subscribe(to: AnimationEvents.PlaybackCompleted.self, on: nil, componentType: nil) { event in
+				if let entity = event.playbackController.entity, entity.name.hasPrefix("ENEMY") {
+					// Game over sequence
+					if (!isGameOver) {
+						openWindow(id: "GameOverView")
+					}
+					let highScore = UserDefaults.standard.integer(forKey: "highestScore")
+					if (highScore < score) {
+						UserDefaults.standard.set(score, forKey: "highestScore")
+					}
+					isGameOver = true
+					entity.removeFromParent()
+					let index = enemyEntities.firstIndex { entity2 in
+						entity.name == "ENEMY" + String(entity.id)
+					}
+					enemyEntities.remove(at: index!)
+				} else if let entity = event.playbackController.entity, entity.name.hasPrefix("SPELL") {
+					entity.removeFromParent()
+				}
+			}
 			collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil, componentType: nil) { event in
 //				print("Collision detected between \(event.entityA) and \(event.entityB)")
 				
@@ -104,7 +126,6 @@ struct ImmersiveView: View {
 			castSpell(tapLocation: location3D)
 		})
 		.onReceive(timer) { _ in
-			
 			if true { // !gameModel.isPaused
 				Task { @MainActor () -> Void in
 					do {
@@ -118,37 +139,10 @@ struct ImmersiveView: View {
 							}
 							spawnEnemy(resource)
 						}
-						
-						enemyEntities.forEach { entity in
-							let isEqualResult = isEqual(lhs: entity.position, rhs: simd_float([0, 0, 0]), epsilon: 0.001)
-
-							if (isEqualResult) {
-								if (!isGameOver) {
-									openWindow(id: "GameOverView")
-								}
-								let highScore = UserDefaults.standard.integer(forKey: "highestScore")
-								if (highScore < score) {
-									UserDefaults.standard.set(score, forKey: "highestScore")
-								}
-								isGameOver = true
-								entity.removeFromParent()
-								let index = enemyEntities.firstIndex { entity2 in
-									entity.name == "ENEMY" + String(entity.id)
-								}
-								enemyEntities.remove(at: index!)
-							}
-						}
-
 					}
 						
 				}
 			}
-//				else if gameModel.timeLeft == 0 {
-//					print("Game finished.")
-//					gameModel.isFinished = true
-//					gameModel.timeLeft = -1
-//				}
-			
 		}
     }
 	
