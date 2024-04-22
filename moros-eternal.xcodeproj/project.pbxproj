@@ -16,6 +16,9 @@
 		767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 767367F92BD4751F00513603 /* Preview Assets.xcassets */; };
 		767368052BD56F7100513603 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767368042BD56F7100513603 /* GameOverView.swift */; };
 		7673680C2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */; };
+		767368102BD5F0E200513603 /* FireballSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7673680F2BD5F0E200513603 /* FireballSound.wav */; };
+		767368122BD5F0FD00513603 /* SkeletonDeath.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 767368112BD5F0FD00513603 /* SkeletonDeath.mp3 */; };
+		767368142BD5F13300513603 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 767368132BD5F13300513603 /* music.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 		767367FB2BD4751F00513603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		767368042BD56F7100513603 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Demon_Dragon_Full_Texture.usdz; sourceTree = "<group>"; };
+		7673680F2BD5F0E200513603 /* FireballSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = FireballSound.wav; sourceTree = "<group>"; };
+		767368112BD5F0FD00513603 /* SkeletonDeath.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SkeletonDeath.mp3; sourceTree = "<group>"; };
+		767368132BD5F13300513603 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,7 @@
 				767367EE2BD4751E00513603 /* moros_eternalApp.swift */,
 				767367F02BD4751E00513603 /* ContentView.swift */,
 				767367F22BD4751E00513603 /* ImmersiveView.swift */,
+				767368152BD5F13700513603 /* sound */,
 				767368042BD56F7100513603 /* GameOverView.swift */,
 				767367F42BD4751E00513603 /* ImageBasedLighting.skybox */,
 				767367F62BD4751F00513603 /* Assets.xcassets */,
@@ -99,6 +106,16 @@
 				7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */,
 			);
 			path = USDZs;
+			sourceTree = "<group>";
+		};
+		767368152BD5F13700513603 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				767368112BD5F0FD00513603 /* SkeletonDeath.mp3 */,
+				7673680F2BD5F0E200513603 /* FireballSound.wav */,
+				767368132BD5F13300513603 /* music.mp3 */,
+			);
+			path = sound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,7 +181,10 @@
 			files = (
 				767367F72BD4751F00513603 /* Assets.xcassets in Resources */,
 				7673680C2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz in Resources */,
+				767368102BD5F0E200513603 /* FireballSound.wav in Resources */,
 				767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */,
+				767368122BD5F0FD00513603 /* SkeletonDeath.mp3 in Resources */,
+				767368142BD5F13300513603 /* music.mp3 in Resources */,
 				767367F52BD4751E00513603 /* ImageBasedLighting.skybox in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

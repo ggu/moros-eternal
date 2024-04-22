@@ -8,6 +8,7 @@
 import SwiftUI
 import RealityKit
 import RealityKitContent
+import AVFAudio
 
 var contentView: RealityViewContent?
 var environmentResource: EnvironmentResource?
@@ -137,6 +138,28 @@ struct ImmersiveView: View {
 		}
     }
 	
+	static var audioPlayer: AVAudioPlayer?
+
+	static func playBackgroundMusic() {
+		if let audioPlayer = audioPlayer {
+			if !audioPlayer.isPlaying {
+				audioPlayer.play()
+			}
+		} else {
+			let path = Bundle.main.path(forResource: "music", ofType: "mp3")!
+			let url = URL(fileURLWithPath: path)
+
+			do {
+				audioPlayer = try AVAudioPlayer(contentsOf: url)
+				audioPlayer?.numberOfLoops = -1
+				audioPlayer?.play()
+
+			} catch {
+				print ("Audio code issue")
+
+			}
+		}
+	}
 
 	
 	/// Preload assets when the app launches to avoid pop-in during the game.
@@ -154,6 +177,9 @@ struct ImmersiveView: View {
 		
 		spellTemplate = try! Entity.load(named: "Spell.usda", in: realityKitContentBundle)
 		impactTemplate = try! Entity.load(named: "Impact.usda", in: realityKitContentBundle)
+		
+		ImmersiveView.playBackgroundMusic()
+
 	}
 	
 	func spawnEnemy(_ resource: EnvironmentResource) {
