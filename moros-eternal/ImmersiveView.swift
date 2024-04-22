@@ -102,6 +102,10 @@ struct ImmersiveView: View {
 								if (!isGameOver) {
 									openWindow(id: "GameOverView")
 								}
+								let highScore = UserDefaults.standard.integer(forKey: "highestScore")
+								if (highScore < score) {
+									UserDefaults.standard.set(score, forKey: "highestScore")
+								}
 								isGameOver = true
 								entity.removeFromParent()
 								let index = enemyEntities.firstIndex { entity2 in

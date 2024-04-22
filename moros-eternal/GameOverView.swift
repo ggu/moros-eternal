@@ -26,6 +26,7 @@ struct GameOverView: View {
 				.font(.title)
 			
 			Text("Score: \(score)")
+			Text("Highest Score: \(UserDefaults.standard.integer(forKey: "highestScore"))")
 			
 			Button("Replay") {
 				Task {
