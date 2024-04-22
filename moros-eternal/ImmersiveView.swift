@@ -28,6 +28,8 @@ var impactTemplate: Entity? = nil
 
 var enemyAnimation: AnimationResource?
 
+var spellSound: AudioFileResource?
+
 var timeElapsed = 0
 
 struct ImmersiveView: View {
@@ -179,7 +181,10 @@ struct ImmersiveView: View {
 		impactTemplate = try! Entity.load(named: "Impact.usda", in: realityKitContentBundle)
 		
 		ImmersiveView.playBackgroundMusic()
-
+		
+		Task {
+			spellSound = try await AudioFileResource(named: "FireballSound.wav")
+		}
 	}
 	
 	func spawnEnemy(_ resource: EnvironmentResource) {
@@ -249,6 +254,13 @@ struct ImmersiveView: View {
 		spell.collision = CollisionComponent(shapes: [.generateBox(size: [0.1, 0.1, 0.1])])
 		spell.collision?.filter.group = spells
 		spell.collision?.filter.mask = enemies
+		
+		if let spellSoundLoaded = spellSound {
+			let audioController = spell.prepareAudio(spellSoundLoaded)
+			audioController.gain = 15
+			audioController.play()
+		}
+		
 
 		contentView!.add(spell)
 		
