@@ -101,7 +101,7 @@ struct ImmersiveView: View {
         }
 		.gesture(SpatialTapGesture().targetedToAnyEntity().onEnded { value in
 			let location3D = value.convert(value.location3D, from: .local, to: .scene)
-			addCube(tapLocation: location3D)
+			castSpell(tapLocation: location3D)
 		})
 		.onReceive(timer) { _ in
 			
@@ -246,7 +246,7 @@ struct ImmersiveView: View {
 		enemyEntities.append(enemy)
 	}
 	
-	func addCube(tapLocation: SIMD3<Float>) {
+	func castSpell(tapLocation: SIMD3<Float>) {
 //		let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
 		let placementLocation = SIMD3<Float>(0, 1.0, 0.3)
 		let finalLocation = tapLocation + SIMD3<Float>(0, 0, -1)
