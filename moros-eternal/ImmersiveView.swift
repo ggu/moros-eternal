@@ -230,7 +230,7 @@ struct ImmersiveView: View {
 		enemyPathsIndex += 1
 		enemyPathsIndex %= enemyPaths.count
 		
-		let end = Point3D(x: 0, y: 0, z: 0)
+		let end = Point3D(x: 0, y: 1, z: 0)
 		let line = FromToByAnimation<Transform>(
 			name: "line",
 			from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
@@ -362,21 +362,21 @@ var enemyPathsIndex = 0
 
 /// A hand-picked selection of random starting parameters for the motion of the enemies.
 let enemyPaths: [(Double, Double, Double)] = [
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.094_368_331_589_704),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.254_713_426_424_875),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.601_541_438_900_849),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.183_621_312_117_454),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.010_893_563_433_282),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.680_206_361_333_17),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.383_548_882_448_866),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.169_154_476_151_876),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.147_229_496_720_969),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.051_132_737_691_349),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.503_837_407_474_947),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.760_994_300_660_705),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.908_048_018_555_112),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -7.525_853_388_894_509),
-	(x: Double.random(in: -2...2), y: Double.random(in: -2...2), z: -8.164_641_191_459_626)]
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -8.094_368_331_589_704),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.254_713_426_424_875),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -8.601_541_438_900_849),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.183_621_312_117_454),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -8.010_893_563_433_282),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.680_206_361_333_17),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.383_548_882_448_866),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.169_154_476_151_876),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.147_229_496_720_969),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -8.051_132_737_691_349),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -8.503_837_407_474_947),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.760_994_300_660_705),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -8.908_048_018_555_112),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -7.525_853_388_894_509),
+	(x: Double.random(in: -2...2), y: Double.random(in: -2...4), z: -8.164_641_191_459_626)]
 
    func isEqual<T: SIMD>(lhs: T, rhs: T, epsilon: T.Scalar) -> Bool where T.Scalar: FloatingPoint {
 	   for i in 0..<lhs.scalarCount {
