@@ -23,12 +23,13 @@ var score = 0
 
 var enemyTemplate: Entity? = nil
 var spellTemplate: Entity? = nil
+var impactTemplate: Entity? = nil
+
 var enemyAnimation: AnimationResource?
 
 var timeElapsed = 0
 
 struct ImmersiveView: View {
-	var contentEntity = Entity()
 	@State private var collisionSubscription: EventSubscription?
 	@State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 	@Environment(\.openWindow) private var openWindow
@@ -49,6 +50,10 @@ struct ImmersiveView: View {
 						entity.name == "ENEMY" + String(event.entityB.id)
 					}
 					enemyEntities.remove(at: index!)
+					if let impact = impactTemplate?.clone(recursive: true) {
+						impact.setPosition(event.entityB.position(relativeTo: nil), relativeTo: nil)
+						contentView!.add(impact)
+					}
 				} else if (event.entityA.name.hasPrefix("ENEMY") && event.entityB.name == "SPELL") {
 					score += 1
 					event.entityA.removeFromParent()
@@ -58,6 +63,10 @@ struct ImmersiveView: View {
 						entity.name == "ENEMY" + String(event.entityA.id)
 					}
 					enemyEntities.remove(at: index!)
+					if let impact = impactTemplate?.clone(recursive: true) {
+						impact.setPosition(event.entityA.position(relativeTo: nil), relativeTo: nil)
+						contentView!.add(impact)
+					}
 				}
 			}
 			
@@ -144,7 +153,7 @@ struct ImmersiveView: View {
 		contentView!.add(skybox)
 		
 		spellTemplate = try! Entity.load(named: "Spell.usda", in: realityKitContentBundle)
-
+		impactTemplate = try! Entity.load(named: "Impact.usda", in: realityKitContentBundle)
 	}
 	
 	func spawnEnemy(_ resource: EnvironmentResource) {
