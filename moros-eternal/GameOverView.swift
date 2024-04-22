@@ -32,6 +32,7 @@ struct GameOverView: View {
 					await dismissImmersiveSpace()
 					isGameOver = false
 					enemyEntities.removeAll()
+					timeElapsed = 0
 					score = 0
 					await openImmersiveSpace(id: "ImmersiveSpace")
 					dismissWindow(id: "GameOverView")
