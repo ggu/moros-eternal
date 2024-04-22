@@ -28,6 +28,12 @@ struct ContentView: View {
             Text("Moros: Academy")
 				.font(.title)
 			
+			Text("Pinch your fingers to cast spells. Defeat the endless waves of enemies before they get to you!")
+				.multilineTextAlignment(.center)
+				.font(.headline)
+				.frame(width: 340)
+				.padding(.bottom, 10)
+			
 			Button("Start Game", action: {
 				Task {
 					switch await openImmersiveSpace(id: "ImmersiveSpace") {

@@ -17,13 +17,13 @@ struct GameOverView: View {
 	
 	var body: some View {
 		VStack {
-			Model3D(named: "Scene", bundle: realityKitContentBundle)
+			Spacer()
+			Model3D(named: "Demon_Dragon_Full_Texture.usdz")
 				.padding(.bottom, 50)
-			
+				.scaleEffect(0.5)
+
 			Text("Game Over")
-				.frame(width: 360)
-				.padding(24)
-				.glassBackgroundEffect()
+				.font(.title)
 			
 			Text("Score: \(score)")
 			
@@ -31,11 +31,14 @@ struct GameOverView: View {
 				Task {
 					await dismissImmersiveSpace()
 					isGameOver = false
+					enemyEntities.removeAll()
 					score = 0
 					await openImmersiveSpace(id: "ImmersiveSpace")
 					dismissWindow(id: "GameOverView")
 				}
 			}
+			.font(.title)
+			.padding(24)
 		}
 			.padding()
 		}
