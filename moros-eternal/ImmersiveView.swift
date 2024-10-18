@@ -114,7 +114,7 @@ struct ImmersiveView: View {
 			
 			content.add(collisionBox)
 			
-			guard let resource = try? await EnvironmentResource(named: "ImageBasedLight") else { return }
+			guard let resource = try? await EnvironmentResource(named: "ImageBasedLighting") else { return }
 			environmentResource = resource
 			
 //
