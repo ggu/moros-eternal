@@ -1,5 +1,5 @@
 # moros-eternal
-Moros: Eternal on visionOS
+Moros: Academy on visionOS ([App Store link](https://apps.apple.com/us/app/moros-academy/id6499176562))
 
 ![IMG_0082](https://github.com/ggu/moros-eternal/assets/4742275/f7bdf8ef-3da3-4a1e-9536-f3db3c64e38b)
 
