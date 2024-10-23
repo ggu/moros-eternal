@@ -32,6 +32,7 @@ var spellSound: AudioFileResource?
 var enemyHitSound: AudioFileResource?
 
 var timeElapsed = 0
+var difficultyMultiplier = 1.0 // Add this line
 
 struct ImmersiveView: View {
 	@State private var collisionSubscription: EventSubscription?
@@ -130,17 +131,20 @@ struct ImmersiveView: View {
 				Task { @MainActor () -> Void in
 					do {
 						timeElapsed += 1
-						if (timeElapsed % 3 == 0) {
-							let spawnAmount = Int(ceil(Double(timeElapsed) / 30.0)) // 30
+						
+						// Increase difficulty multiplier over time
+						difficultyMultiplier = min(3.0, 1.0 + Double(timeElapsed) / 60.0)
+						
+						if (timeElapsed % 2 == 0) { // Changed from 3 to 2
+							let spawnAmount = Int(ceil(Double(timeElapsed) / 20.0 * difficultyMultiplier)) // Changed from 30 to 20
 							guard let resource = environmentResource else { return }
 							for _ in (0..<spawnAmount) {
 								spawnEnemy(environmentResource!)
-								try await Task.sleep(for: .milliseconds(300))
+								try await Task.sleep(for: .milliseconds(200)) // Changed from 300 to 200
 							}
 							spawnEnemy(resource)
 						}
 					}
-						
 				}
 			}
 		}
@@ -229,7 +233,7 @@ struct ImmersiveView: View {
 			name: "line",
 			from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
 			to: .init(scale: .init(repeating: 1), translation: simd_float(end.vector)),
-			duration: EnemySpawnParameters.speed - log2(Double(timeElapsed) / 10.0),
+			duration: EnemySpawnParameters.speed - log2(Double(timeElapsed) / 5.0), // Changed from 10.0 to 5.0
 			bindTarget: .transform
 		)
 		
@@ -348,7 +352,7 @@ struct EnemySpawnParameters {
 	static var deltaY = -0.12
 	static var deltaZ = 12.0
 	
-	static var speed = 11.73
+	static var speed = 10.0 // Changed from 11.73 to 10.0
 }
 
 /// A counter that advances to the next enemy path.
@@ -384,3 +388,4 @@ let enemyPaths: [(Double, Double, Double)] = [
 #Preview(immersionStyle: .full) {
     ImmersiveView()
 }
+
