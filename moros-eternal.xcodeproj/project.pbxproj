@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E42C5F92CCC35CD00CB8F6E /* wyvern_dragon.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4E42C5F82CCC35CD00CB8F6E /* wyvern_dragon.usdz */; };
+		4E42C5FB2CCC409800CB8F6E /* WyvernDragon_flying.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4E42C5FA2CCC409800CB8F6E /* WyvernDragon_flying.usdz */; };
 		767367ED2BD4751E00513603 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 767367EC2BD4751E00513603 /* RealityKitContent */; };
 		767367EF2BD4751E00513603 /* moros_eternalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367EE2BD4751E00513603 /* moros_eternalApp.swift */; };
 		767367F12BD4751E00513603 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367F02BD4751E00513603 /* ContentView.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E42C5F82CCC35CD00CB8F6E /* wyvern_dragon.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = wyvern_dragon.usdz; sourceTree = "<group>"; };
+		4E42C5FA2CCC409800CB8F6E /* WyvernDragon_flying.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = WyvernDragon_flying.usdz; sourceTree = "<group>"; };
 		767367E72BD4751E00513603 /* moros-eternal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "moros-eternal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		767367EB2BD4751E00513603 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		767367EE2BD4751E00513603 /* moros_eternalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moros_eternalApp.swift; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */,
+				4E42C5FA2CCC409800CB8F6E /* WyvernDragon_flying.usdz */,
+				4E42C5F82CCC35CD00CB8F6E /* wyvern_dragon.usdz */,
 			);
 			path = USDZs;
 			sourceTree = "<group>";
@@ -183,9 +189,11 @@
 				7673680C2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz in Resources */,
 				767368102BD5F0E200513603 /* FireballSound.wav in Resources */,
 				767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */,
+				4E42C5F92CCC35CD00CB8F6E /* wyvern_dragon.usdz in Resources */,
 				767368122BD5F0FD00513603 /* EnemyDeath.mp3 in Resources */,
 				767368142BD5F13300513603 /* music.mp3 in Resources */,
 				767367F52BD4751E00513603 /* ImageBasedLighting.skybox in Resources */,
+				4E42C5FB2CCC409800CB8F6E /* WyvernDragon_flying.usdz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

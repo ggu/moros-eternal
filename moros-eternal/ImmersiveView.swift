@@ -177,9 +177,9 @@ struct ImmersiveView: View {
 	
 	/// Preload assets when the app launches to avoid pop-in during the game.
 	func initializeAssets() {		
-		enemyTemplate = try! Entity.load(named: "Demon_Dragon_Full_Texture.usdz")
+		enemyTemplate = try! Entity.load(named: "WyvernDragon_flying.usdz")
 
-		enemyTemplate!.setScale(.init(repeating: 0.005), relativeTo: nil)
+		enemyTemplate!.setScale(.init(repeating: 0.0005), relativeTo: nil)
 		
 		let def = enemyTemplate!.availableAnimations[0].definition
 		enemyAnimation = try! AnimationResource.generate(with: AnimationView(source: def, trimStart: 0.0, trimEnd: 7.0))
@@ -204,6 +204,9 @@ struct ImmersiveView: View {
 		let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
 		let entity = enemyTemplate!.clone(recursive: true)
 		entity.position = simd_float([0, -1, 0])
+		
+		// Rotate the dragon 180 degrees around the Y axis to face the player
+		entity.orientation = simd_quatf(angle: .pi, axis: [0, 1, 0])
 		
 		entity.playAnimation(enemyAnimation!.repeat(count: 100))
 
@@ -388,4 +391,3 @@ let enemyPaths: [(Double, Double, Double)] = [
 #Preview(immersionStyle: .full) {
     ImmersiveView()
 }
-
