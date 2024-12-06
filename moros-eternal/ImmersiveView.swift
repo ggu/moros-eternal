@@ -10,6 +10,7 @@ import RealityKit
 import RealityKitContent
 import AVFAudio
 
+
 var contentView: RealityViewContent?
 var environmentResource: EnvironmentResource?
 
@@ -32,7 +33,7 @@ var spellSound: AudioFileResource?
 var enemyHitSound: AudioFileResource?
 
 var timeElapsed = 0
-var difficultyMultiplier = 1.0 // Add this line
+var difficultyMultiplier = 1.0 
 
 struct ImmersiveView: View {
 	@State private var collisionSubscription: EventSubscription?
@@ -178,11 +179,15 @@ struct ImmersiveView: View {
 	/// Preload assets when the app launches to avoid pop-in during the game.
 	func initializeAssets() {		
 		enemyTemplate = try! Entity.load(named: "WyvernDragon_flying.usdz")
-
 		enemyTemplate!.setScale(.init(repeating: 0.0005), relativeTo: nil)
 		
-		let def = enemyTemplate!.availableAnimations[0].definition
-		enemyAnimation = try! AnimationResource.generate(with: AnimationView(source: def, trimStart: 0.0, trimEnd: 7.0))
+		// Use the default subtree animation with a shorter duration to minimize gaps
+		let def = enemyTemplate!.availableAnimations[1].definition
+		enemyAnimation = try! AnimationResource.generate(with: AnimationView(
+			source: def,
+			trimStart: 0.0,
+			trimEnd: 2.0  
+		))
 		
 		let skybox = try! Entity.load(named: "Skybox.usda", in: realityKitContentBundle)
 		skybox.setScale(SIMD3<Float>(repeating: 10), relativeTo: nil)
@@ -208,14 +213,21 @@ struct ImmersiveView: View {
 		// Rotate the dragon 180 degrees around the Y axis to face the player
 		entity.orientation = simd_quatf(angle: .pi, axis: [0, 1, 0])
 		
-		entity.playAnimation(enemyAnimation!.repeat(count: 100))
+		if let animation = enemyAnimation {
+			entity.playAnimation(
+				animation.repeat(count: .max),
+				transitionDuration: 0.2,
+				startsPaused: false
+			)
+			print("Started animation with transition duration")
+		}
 
 		let enemy = ModelEntity()
 		//let enemy = ModelEntity(mesh: .generateBox(size: simd_float3(1.0, 0.5, 1.0)))
 		enemy.addChild(entity)
 		enemy.components.set(iblComponent)
 		enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
-		enemy.collision = CollisionComponent(shapes: [.generateBox(size: .init(repeating: 1.0))])
+		enemy.collision = CollisionComponent(shapes: [.generateBox(size: .init(repeating: 2.0))])
 		enemy.collision?.filter.group = enemies
 		enemy.collision?.filter.mask = spells
 		enemy.name = "ENEMY" + String(enemy.id)
@@ -236,7 +248,7 @@ struct ImmersiveView: View {
 			name: "line",
 			from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
 			to: .init(scale: .init(repeating: 1), translation: simd_float(end.vector)),
-			duration: EnemySpawnParameters.speed - log2(Double(timeElapsed) / 5.0), // Changed from 10.0 to 5.0
+			duration: EnemySpawnParameters.speed - log2(Double(timeElapsed) / 5.0), 
 			bindTarget: .transform
 		)
 		
@@ -355,7 +367,7 @@ struct EnemySpawnParameters {
 	static var deltaY = -0.12
 	static var deltaZ = 12.0
 	
-	static var speed = 10.0 // Changed from 11.73 to 10.0
+	static var speed = 10.0 
 }
 
 /// A counter that advances to the next enemy path.
