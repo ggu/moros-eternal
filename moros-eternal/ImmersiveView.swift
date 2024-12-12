@@ -34,6 +34,9 @@ var enemyHitSound: AudioFileResource?
 var timeElapsed = 0
 var difficultyMultiplier = 1.0 // Add this line
 
+// Add a counter for dragon kills
+var dragonKillCount = 0
+
 struct ImmersiveView: View {
 	@State private var collisionSubscription: EventSubscription?
 	@State private var animationSubscription: EventSubscription?
@@ -43,6 +46,7 @@ struct ImmersiveView: View {
 
     var body: some View {
         RealityView { content in
+<<<<<<< Updated upstream
 			contentView = content
 			
 			animationSubscription = content.subscribe(to: AnimationEvents.PlaybackCompleted.self, on: nil, componentType: nil) { event in
@@ -121,6 +125,85 @@ struct ImmersiveView: View {
 //
 			// Put skybox here.  See example in World project available at
 			// https://developer.apple.com/
+=======
+            contentView = content
+            
+            animationSubscription = content.subscribe(to: AnimationEvents.PlaybackCompleted.self, on: nil, componentType: nil) { event in
+                if let entity = event.playbackController.entity, entity.name.hasPrefix("ENEMY") {
+                    // Game over sequence
+                    if (!isGameOver) {
+                        openWindow(id: "GameOverView")
+                    }
+                    let highScore = UserDefaults.standard.integer(forKey: "highestScore")
+                    if (highScore < score) {
+                        UserDefaults.standard.set(score, forKey: "highestScore")
+                    }
+                    isGameOver = true
+                    entity.removeFromParent()
+                    if let index = enemyEntities.firstIndex(where: { entity2 in
+                        entity.name == "ENEMY" + String(entity.id)
+                    }) {
+                        enemyEntities.remove(at: index)
+                    }
+                } else if let entity = event.playbackController.entity, entity.name.hasPrefix("SPELL") {
+                    entity.removeFromParent()
+                }
+            }
+            collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil, componentType: nil) { event in
+                // Handle spell collision with enemy
+                if (event.entityA.name == "SPELL" && event.entityB.name.hasPrefix("ENEMY")) || 
+                   (event.entityA.name.hasPrefix("ENEMY") && event.entityB.name == "SPELL") {
+                    
+                    // Increment dragon kill count and check for orb spawn
+                    dragonKillCount += 1
+                    if let currentContentView = contentView {
+                        ChaoticOrb.handleDragonKill(dragonKillCount: dragonKillCount, contentView: currentContentView)
+                    }
+                    
+                    // Handle the enemy removal and effects
+                    handleEnemyDestruction(event)
+                }
+                
+                // Handle spell collision with orb
+                if (event.entityA.name == "SPELL" && event.entityB.name == "CHAOTIC_ORB") ||
+                   (event.entityA.name == "CHAOTIC_ORB" && event.entityB.name == "SPELL") {
+                    
+                    let orbEntity = event.entityA.name == "CHAOTIC_ORB" ? event.entityA : event.entityB
+                    let spellEntity = event.entityA.name == "SPELL" ? event.entityA : event.entityB
+                    
+                    // Remove collided entities
+                    orbEntity.removeFromParent()
+                    spellEntity.removeFromParent()
+                    
+                    // Add impact effects and play sound
+                    if let impact = impactTemplate?.clone(recursive: true) {
+                        impact.setPosition(orbEntity.position(relativeTo: nil), relativeTo: nil)
+                        if let safeContentView = contentView {
+                            safeContentView.add(impact)
+                            if let enemyHitSoundLoaded = enemyHitSound {
+                                let audioController = impact.prepareAudio(enemyHitSoundLoaded)
+                                audioController.gain = 30
+                                audioController.play()
+                            }
+                        }
+                    }
+                }
+            }
+            
+            initializeAssets()
+            
+            // A 20m box that receives hits.
+            let collisionBox = makeCollisionBox(size: 30)
+            
+            content.add(collisionBox)
+            
+            guard let resource = try? await EnvironmentResource(named: "ImageBasedLighting") else { return }
+            environmentResource = resource
+            
+            //
+            // Put skybox here.  See example in World project available at
+            // https://developer.apple.com/
+>>>>>>> Stashed changes
         }
 		.gesture(SpatialTapGesture().targetedToAnyEntity().onEnded { value in
 			let location3D = value.convert(value.location3D, from: .local, to: .scene)
@@ -198,6 +281,7 @@ struct ImmersiveView: View {
 			enemyHitSound = try await AudioFileResource(named: "EnemyDeath.mp3")
 		}
 	}
+<<<<<<< Updated upstream
 	
 	func spawnEnemy(_ resource: EnvironmentResource) {
 		
@@ -344,6 +428,178 @@ struct ImmersiveView: View {
 			
 		return entity
 	}
+=======
+    
+    func spawnEnemy(_ resource: EnvironmentResource) {
+        
+        let iblComponent = ImageBasedLightComponent(source: .single(resource), intensityExponent: 0.25)
+        let entity = enemyTemplate!.clone(recursive: true)
+        entity.position = simd_float([0, -1, 0])
+        
+        // Rotate the dragon 180 degrees around the Y axis to face the player
+        entity.orientation = simd_quatf(angle: .pi, axis: [0, 1, 0.5])
+        
+        entity.playAnimation(enemyAnimation!.repeat(count: 100))
+        
+        let enemy = ModelEntity()
+        //let enemy = ModelEntity(mesh: .generateBox(size: simd_float3(1.0, 0.5, 1.0)))
+        enemy.addChild(entity)
+        enemy.components.set(iblComponent)
+        enemy.components.set(ImageBasedLightReceiverComponent(imageBasedLight: enemy))
+        enemy.collision = CollisionComponent(shapes: [.generateBox(size: .init(repeating: 2.0))])
+        enemy.collision?.filter.group = enemies
+        enemy.collision?.filter.mask = spells
+        enemy.name = "ENEMY" + String(enemy.id)
+        
+        let start = Point3D(
+            x: enemyPaths[enemyPathsIndex].0,
+            y: enemyPaths[enemyPathsIndex].1,
+            z: enemyPaths[enemyPathsIndex].2
+        )
+        enemy.position = simd_float(start.vector + .init(x: 0, y: 0, z: -0.7))
+        contentView!.add(enemy)
+        
+        enemyPathsIndex += 1
+        enemyPathsIndex %= enemyPaths.count
+        
+        let end = Point3D(x: 0, y: 1, z: 0)
+        let line = FromToByAnimation<Transform>(
+            name: "line",
+            from: .init(scale: .init(repeating: 1), translation: simd_float(start.vector)),
+            to: .init(scale: .init(repeating: 1), translation: simd_float(end.vector)),
+            duration: EnemySpawnParameters.speed - log2(Double(timeElapsed) / 10.0), 
+            bindTarget: .transform
+        )
+        
+        let animation = try! AnimationResource
+            .generate(with: line)
+        
+        enemy.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
+        enemyEntities.append(enemy)
+    }
+    
+    func castSpell(tapLocation: SIMD3<Float>) {
+        //        let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
+        let placementLocation = SIMD3<Float>(0, 1.0, 0.3)
+        let finalLocation = tapLocation + SIMD3<Float>(0, 0, -1)
+        
+        let iblComponent = ImageBasedLightComponent(source: .single(environmentResource!), intensityExponent: 0.25)
+        
+        let entity = spellTemplate!.clone(recursive: true)
+        entity.position = simd_float([0, 0, 0])
+        
+        //        let spell = ModelEntity(mesh: .generateBox(size: [0.1,0.1,0.1]), materials: [SimpleMaterial(color: .clear, isMetallic: false)])
+        let spell = ModelEntity()
+        spell.addChild(entity)
+        spell.components.set(iblComponent)
+        spell.components.set(ImageBasedLightReceiverComponent(imageBasedLight: spell))
+        spell.name = "SPELL"
+        
+        spell.setPosition(placementLocation, relativeTo: nil)
+        spell.collision = CollisionComponent(shapes: [.generateBox(size: [0.1, 0.1, 0.1])])
+        spell.collision?.filter.group = spells
+        spell.collision?.filter.mask = enemies
+        
+        if let spellSoundLoaded = spellSound {
+            let audioController = spell.prepareAudio(spellSoundLoaded)
+            audioController.gain = 15
+            audioController.play()
+        }
+        
+        contentView!.add(spell)
+        
+        let line = FromToByAnimation<Transform>(
+            name: "line",
+            from: .init(scale: .init(repeating: 1), translation: placementLocation),
+            to: .init(scale: .init(repeating: 1), translation: finalLocation),
+            duration: EnemySpawnParameters.speed / 10,
+            bindTarget: .transform
+        )
+        
+        let animation = try! AnimationResource
+            .generate(with: line)
+        
+        spell.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
+    }
+    
+    func makeCollisionBox(size: Float) -> Entity {
+        
+        let smallDimension: Float = 0.001
+        let offset = size / 2
+        
+        // right face
+        let right = Entity()
+        right.name = "right"
+        right.components.set(CollisionComponent(shapes: [.generateBox(width: smallDimension, height: size, depth: size)]))
+        right.position.x = offset
+        
+        // left face
+        let left = Entity()
+        left.name = "left"
+        left.components.set(CollisionComponent(shapes: [.generateBox(width: smallDimension, height: size, depth: size)]))
+        left.position.x = -offset
+        
+        // top face
+        let top = Entity()
+        top.name = "top"
+        top.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: smallDimension, depth: size)]))
+        top.position.y = offset
+        
+        // bottom face
+        let bottom = Entity()
+        bottom.name = "bottom"
+        bottom.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: smallDimension, depth: size)]))
+        bottom.position.y = -offset
+        
+        // front face
+        let front = Entity()
+        front.name = "front"
+        front.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: size, depth: smallDimension)]))
+        front.position.z = offset
+        
+        // back face
+        let back = Entity()
+        back.name = "back"
+        back.components.set(CollisionComponent(shapes: [.generateBox(width: size, height: size, depth: smallDimension)]))
+        back.position.z = -offset
+        
+        // All faces.
+        let faces = [right, left, top, bottom, front, back]
+        
+        for face in faces {
+            face.components.set(InputTargetComponent())
+        }
+        
+        // parent to hold all of the entities.
+        let entity = Entity()
+        entity.children.append(contentsOf: faces)
+        
+        return entity
+    }
+    
+    func handleEnemyDestruction(_ event: CollisionEvents.Began) {
+        score += 1
+        event.entityA.removeFromParent()
+        event.entityB.removeFromParent()
+        
+        if let index = enemyEntities.firstIndex(where: { entity in
+            entity.name == "ENEMY" + String(event.entityB.id)
+        }) {
+            enemyEntities.remove(at: index)
+            if let impact = impactTemplate?.clone(recursive: true) {
+                impact.setPosition(event.entityB.position(relativeTo: nil), relativeTo: nil)
+                if let safeContentView = contentView {
+                    safeContentView.add(impact)
+                    if let enemyHitSoundLoaded = enemyHitSound {
+                        let audioController = impact.prepareAudio(enemyHitSoundLoaded)
+                        audioController.gain = 30
+                        audioController.play()
+                    }
+                }
+            }
+        }
+    }
+>>>>>>> Stashed changes
 }
 
 /// Enemy spawn parameters (in meters).

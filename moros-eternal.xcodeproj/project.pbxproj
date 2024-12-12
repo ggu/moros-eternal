@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+<<<<<<< Updated upstream
+=======
+		4E25E7B82D0A4D4B00898171 /* BlueOrbRCP.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4E25E7B72D0A4D4B00898171 /* BlueOrbRCP.usdz */; };
+		4E42C5F92CCC35CD00CB8F6E /* wyvern_dragon.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4E42C5F82CCC35CD00CB8F6E /* wyvern_dragon.usdz */; };
+		4E42C5FB2CCC409800CB8F6E /* WyvernDragon_flying.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4E42C5FA2CCC409800CB8F6E /* WyvernDragon_flying.usdz */; };
+		4E76936C2D09015400BE114F /* BlueOrb.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4E7693652D09015400BE114F /* BlueOrb.usdz */; };
+		4EDE91D22D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4EDE91D12D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz */; };
+>>>>>>> Stashed changes
 		767367ED2BD4751E00513603 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 767367EC2BD4751E00513603 /* RealityKitContent */; };
 		767367EF2BD4751E00513603 /* moros_eternalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367EE2BD4751E00513603 /* moros_eternalApp.swift */; };
 		767367F12BD4751E00513603 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367F02BD4751E00513603 /* ContentView.swift */; };
@@ -19,9 +27,18 @@
 		767368102BD5F0E200513603 /* FireballSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = 7673680F2BD5F0E200513603 /* FireballSound.wav */; };
 		767368122BD5F0FD00513603 /* EnemyDeath.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 767368112BD5F0FD00513603 /* EnemyDeath.mp3 */; };
 		767368142BD5F13300513603 /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 767368132BD5F13300513603 /* music.mp3 */; };
+		76A1B3F42B26C73A00513603 /* ChaoticOrb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A1B3F32B26C73A00513603 /* ChaoticOrb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+<<<<<<< Updated upstream
+=======
+		4E25E7B72D0A4D4B00898171 /* BlueOrbRCP.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = BlueOrbRCP.usdz; sourceTree = "<group>"; };
+		4E42C5F82CCC35CD00CB8F6E /* wyvern_dragon.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = wyvern_dragon.usdz; sourceTree = "<group>"; };
+		4E42C5FA2CCC409800CB8F6E /* WyvernDragon_flying.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = WyvernDragon_flying.usdz; sourceTree = "<group>"; };
+		4E7693652D09015400BE114F /* BlueOrb.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = BlueOrb.usdz; sourceTree = "<group>"; };
+		4EDE91D12D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = WyvernDragon_flying_decimated_2.usdz; sourceTree = "<group>"; };
+>>>>>>> Stashed changes
 		767367E72BD4751E00513603 /* moros-eternal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "moros-eternal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		767367EB2BD4751E00513603 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		767367EE2BD4751E00513603 /* moros_eternalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moros_eternalApp.swift; sourceTree = "<group>"; };
@@ -36,6 +53,7 @@
 		7673680F2BD5F0E200513603 /* FireballSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = FireballSound.wav; sourceTree = "<group>"; };
 		767368112BD5F0FD00513603 /* EnemyDeath.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = EnemyDeath.mp3; sourceTree = "<group>"; };
 		767368132BD5F13300513603 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
+		76A1B3F32B26C73A00513603 /* ChaoticOrb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaoticOrb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +92,7 @@
 				767367EE2BD4751E00513603 /* moros_eternalApp.swift */,
 				767367F02BD4751E00513603 /* ContentView.swift */,
 				767367F22BD4751E00513603 /* ImmersiveView.swift */,
+				76A1B3F32B26C73A00513603 /* ChaoticOrb.swift */,
 				767368152BD5F13700513603 /* sound */,
 				767368042BD56F7100513603 /* GameOverView.swift */,
 				767367F42BD4751E00513603 /* ImageBasedLighting.skybox */,
@@ -104,6 +123,13 @@
 			isa = PBXGroup;
 			children = (
 				7673680B2BD587CC00513603 /* Demon_Dragon_Full_Texture.usdz */,
+<<<<<<< Updated upstream
+=======
+				4E42C5FA2CCC409800CB8F6E /* WyvernDragon_flying.usdz */,
+				4E42C5F82CCC35CD00CB8F6E /* wyvern_dragon.usdz */,
+				4E7693652D09015400BE114F /* BlueOrb.usdz */,
+				4E25E7B72D0A4D4B00898171 /* BlueOrbRCP.usdz */,
+>>>>>>> Stashed changes
 			);
 			path = USDZs;
 			sourceTree = "<group>";
@@ -185,7 +211,15 @@
 				767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */,
 				767368122BD5F0FD00513603 /* EnemyDeath.mp3 in Resources */,
 				767368142BD5F13300513603 /* music.mp3 in Resources */,
+<<<<<<< Updated upstream
 				767367F52BD4751E00513603 /* ImageBasedLighting.skybox in Resources */,
+=======
+				4E25E7B82D0A4D4B00898171 /* BlueOrbRCP.usdz in Resources */,
+				4EDE91D22D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz in Resources */,
+				767367F52BD4751E00513603 /* ImageBasedLighting.skybox in Resources */,
+				4E42C5FB2CCC409800CB8F6E /* WyvernDragon_flying.usdz in Resources */,
+				4E76936C2D09015400BE114F /* BlueOrb.usdz in Resources */,
+>>>>>>> Stashed changes
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +234,7 @@
 				767367EF2BD4751E00513603 /* moros_eternalApp.swift in Sources */,
 				767368052BD56F7100513603 /* GameOverView.swift in Sources */,
 				767367F32BD4751E00513603 /* ImmersiveView.swift in Sources */,
+				76A1B3F42B26C73A00513603 /* ChaoticOrb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
