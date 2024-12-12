@@ -68,15 +68,23 @@ struct ImmersiveView: View {
             collisionSubscription = content.subscribe(to: CollisionEvents.Began.self, on: nil, componentType: nil) { event in
                 //                print("Collision detected between \(event.entityA) and \(event.entityB)")
                 
-                if (event.entityA.name == "SPELL" && event.entityB.name.hasPrefix("ENEMY")) {
+                if (event.entityA.name == "SPELL" && (event.entityB.name.hasPrefix("ENEMY") || event.entityB.name == "CHAOTIC_ORB")) {
                     score += 1
                     event.entityA.removeFromParent()
                     event.entityB.removeFromParent()
                     
-                    let index = enemyEntities.firstIndex { entity in
-                        entity.name == "ENEMY" + String(event.entityB.id)
+                    if event.entityB.name.hasPrefix("ENEMY") {
+                        let index = enemyEntities.firstIndex { entity in
+                            entity.name == "ENEMY" + String(event.entityB.id)
+                        }
+                        enemyEntities.remove(at: index!)
+                        
+                        // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
+                        if let content = contentView {
+                            ChaoticOrb.handleDragonKill(contentView: content)
+                        }
                     }
-                    enemyEntities.remove(at: index!)
+                    
                     if let impact = impactTemplate?.clone(recursive: true) {
                         impact.setPosition(event.entityB.position(relativeTo: nil), relativeTo: nil)
                         contentView!.add(impact)
@@ -87,15 +95,23 @@ struct ImmersiveView: View {
                         }
                     }
                     
-                } else if (event.entityA.name.hasPrefix("ENEMY") && event.entityB.name == "SPELL") {
+                } else if ((event.entityA.name.hasPrefix("ENEMY") || event.entityA.name == "CHAOTIC_ORB") && event.entityB.name == "SPELL") {
                     score += 1
                     event.entityA.removeFromParent()
                     event.entityB.removeFromParent()
                     
-                    let index = enemyEntities.firstIndex { entity in
-                        entity.name == "ENEMY" + String(event.entityA.id)
+                    if event.entityA.name.hasPrefix("ENEMY") {
+                        let index = enemyEntities.firstIndex { entity in
+                            entity.name == "ENEMY" + String(event.entityA.id)
+                        }
+                        enemyEntities.remove(at: index!)
+                        
+                        // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
+                        if let content = contentView {
+                            ChaoticOrb.handleDragonKill(contentView: content)
+                        }
                     }
-                    enemyEntities.remove(at: index!)
+                    
                     if let impact = impactTemplate?.clone(recursive: true) {
                         impact.setPosition(event.entityA.position(relativeTo: nil), relativeTo: nil)
                         contentView!.add(impact)
