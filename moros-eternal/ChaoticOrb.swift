@@ -8,10 +8,12 @@ import AVFAudio
 class ChaoticOrb {
     let entity: ModelEntity
     private static var dragonKillCount: Int = 0
+    static var isDestroyed: Bool = false
     
     /// Increments the dragon kill count and returns the new value
     static func incrementDragonKillCount() -> Int {
         dragonKillCount += 1
+        print("Dragon kill count increased to: \(dragonKillCount)")  // Debug print
         return dragonKillCount
     }
     
@@ -21,12 +23,16 @@ class ChaoticOrb {
     }
     
     init() {
+        print("Initializing ChaoticOrb")  // Debug print
         self.entity = ModelEntity()
         self.entity.name = "CHAOTIC_ORB"
         
         // Load and setup the orb model
         if let model = try? ModelEntity.load(named: "BlueOrbRCP.usdz") {
+            print("Successfully loaded orb model")  // Debug print
             self.entity.addChild(model)
+        } else {
+            print("Failed to load orb model")  // Debug print
         }
         
         // Configure collision detection
@@ -35,12 +41,15 @@ class ChaoticOrb {
                                                 mode: .trigger,
                                                 filter: collisionFilter)
         self.entity.generateCollisionShapes(recursive: true)
+        print("Collision components configured")  // Debug print
         
         // Add to enemies collision group so spells can hit it
     }
     
     /// Creates a semicircular movement pattern for the orb
     func moveChaotically() {
+        print("Starting chaotic movement")  // Debug print
+        
         // Configure movement parameters
         let duration: TimeInterval = 5.0
         let radius: Float = 5.0
@@ -62,17 +71,20 @@ class ChaoticOrb {
                 translation: simd_float3(x, 1, z)
             )
             waypoints.append(transform)
+            print("Created waypoint \(i): position (\(x), 1, \(z))")  // Debug print
         }
         
         // Initialize position and orientation
         entity.setPosition(waypoints[0].translation, relativeTo: nil)
         entity.orientation = waypoints[0].rotation
+        print("Set initial position and orientation")  // Debug print
         
         // Animate through waypoints
         for (index, waypoint) in waypoints.enumerated() {
             let delay = duration * Double(index) / Double(waypoints.count)
             let segmentDuration = duration / Double(waypoints.count)
             
+            print("Scheduling waypoint \(index) with delay \(delay)")  // Debug print
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 _ = self.entity.move(
                     to: waypoint,
@@ -85,6 +97,7 @@ class ChaoticOrb {
         
         // Remove orb after movement completes
         DispatchQueue.main.asyncAfter(deadline: .now() + duration) { [weak self] in
+            print("Movement complete, removing orb")  // Debug print
             self?.entity.removeFromParent()
         }
     }
@@ -98,10 +111,16 @@ class ChaoticOrb {
         print("Dragon killed! Count: \(newCount)")
         
         if newCount >= 10 {
-            print("Spawning Chaotic Orb!")
+            print("Spawning Chaotic Orb")  // Debug print
             contentView.add(orb.entity)
             orb.moveChaotically()
             dragonKillCount = 0  // Reset the count
         }
+    }
+    
+    func destroy() {
+        // Logic to remove the orb from the scene
+        self.entity.removeFromParent()
+        ChaoticOrb.isDestroyed = true // Set the state to indicate destruction
     }
 }

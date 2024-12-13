@@ -25,11 +25,13 @@ var score = 0
 var enemyTemplate: Entity? = nil
 var spellTemplate: Entity? = nil
 var impactTemplate: Entity? = nil
+var frostboltTemplate: Entity? = nil
 
 var enemyAnimation: AnimationResource?
 
 var spellSound: AudioFileResource?
 var enemyHitSound: AudioFileResource?
+var frostboltSound: AudioFileResource?
 
 var timeElapsed = 0
 var difficultyMultiplier = 1.0
@@ -61,7 +63,7 @@ struct ImmersiveView: View {
                         entity.name == "ENEMY" + String(entity.id)
                     }
                     enemyEntities.remove(at: index!)
-                } else if let entity = event.playbackController.entity, entity.name.hasPrefix("SPELL") {
+                } else if let entity = event.playbackController.entity, entity.name.hasPrefix("SPELL") || entity.name.hasPrefix("FROSTBOLT") {
                     entity.removeFromParent()
                 }
             }
@@ -71,17 +73,25 @@ struct ImmersiveView: View {
                 if (event.entityA.name == "SPELL" && (event.entityB.name.hasPrefix("ENEMY") || event.entityB.name == "CHAOTIC_ORB")) {
                     score += 1
                     event.entityA.removeFromParent()
+                    
+                    if event.entityB.name == "CHAOTIC_ORB" {
+                        print("Spell hit chaotic orb - destroying orb")
+                        ChaoticOrb.isDestroyed = true
+                    }
+                    
                     event.entityB.removeFromParent()
                     
                     if event.entityB.name.hasPrefix("ENEMY") {
-                        let index = enemyEntities.firstIndex { entity in
-                            entity.name == "ENEMY" + String(event.entityB.id)
-                        }
-                        enemyEntities.remove(at: index!)
-                        
-                        // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
-                        if let content = contentView {
-                            ChaoticOrb.handleDragonKill(contentView: content)
+                        // Only remove from array if the enemy still exists in it
+                        if let index = enemyEntities.firstIndex(where: { entity in
+                            entity.name == event.entityB.name
+                        }) {
+                            print("Removing enemy at index \(index)")
+                            enemyEntities.remove(at: index)
+                            // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
+                            if let content = contentView {
+                                ChaoticOrb.handleDragonKill(contentView: content)
+                            }
                         }
                     }
                     
@@ -97,18 +107,91 @@ struct ImmersiveView: View {
                     
                 } else if ((event.entityA.name.hasPrefix("ENEMY") || event.entityA.name == "CHAOTIC_ORB") && event.entityB.name == "SPELL") {
                     score += 1
+                    
+                    if event.entityA.name == "CHAOTIC_ORB" {
+                        print("Spell hit chaotic orb - destroying orb")
+                        ChaoticOrb.isDestroyed = true
+                    }
+                    
                     event.entityA.removeFromParent()
                     event.entityB.removeFromParent()
                     
                     if event.entityA.name.hasPrefix("ENEMY") {
-                        let index = enemyEntities.firstIndex { entity in
-                            entity.name == "ENEMY" + String(event.entityA.id)
+                        // Only remove from array if the enemy still exists in it
+                        if let index = enemyEntities.firstIndex(where: { entity in
+                            entity.name == event.entityA.name
+                        }) {
+                            print("Removing enemy at index \(index)")
+                            enemyEntities.remove(at: index)
+                            // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
+                            if let content = contentView {
+                                ChaoticOrb.handleDragonKill(contentView: content)
+                            }
                         }
-                        enemyEntities.remove(at: index!)
-                        
-                        // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
-                        if let content = contentView {
-                            ChaoticOrb.handleDragonKill(contentView: content)
+                    }
+                    
+                    if let impact = impactTemplate?.clone(recursive: true) {
+                        impact.setPosition(event.entityA.position(relativeTo: nil), relativeTo: nil)
+                        contentView!.add(impact)
+                        if let enemyHitSoundLoaded = enemyHitSound {
+                            let audioController = impact.prepareAudio(enemyHitSoundLoaded)
+                            audioController.gain = 30
+                            audioController.play()
+                        }
+                    }
+                } else if (event.entityA.name == "FROSTBOLT" && (event.entityB.name.hasPrefix("ENEMY") || event.entityB.name == "CHAOTIC_ORB")) {
+                    print("Frostbolt detected in collision with: \(event.entityB.name)")
+                    print("Frostbolt hit an enemy or chaotic orb")
+                    score += 1
+                    
+                    if event.entityB.name == "CHAOTIC_ORB" {
+                        ChaoticOrb.isDestroyed = true
+                        event.entityB.removeFromParent()
+                    } else if event.entityB.name.hasPrefix("ENEMY") {
+                        // Only remove from array if the enemy still exists in it
+                        if let index = enemyEntities.firstIndex(where: { entity in
+                            entity.name == event.entityB.name
+                        }) {
+                            print("Removing enemy at index \(index)")
+                            enemyEntities.remove(at: index)
+                            event.entityB.removeFromParent()
+                            // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
+                            if let content = contentView {
+                                ChaoticOrb.handleDragonKill(contentView: content)
+                            }
+                        }
+                    }
+                    
+                    if let impact = impactTemplate?.clone(recursive: true) {
+                        impact.setPosition(event.entityB.position(relativeTo: nil), relativeTo: nil)
+                        contentView!.add(impact)
+                        if let enemyHitSoundLoaded = enemyHitSound {
+                            let audioController = impact.prepareAudio(enemyHitSoundLoaded)
+                            audioController.gain = 30
+                            audioController.play()
+                        }
+                    }
+                } else if ((event.entityA.name.hasPrefix("ENEMY") || event.entityA.name == "CHAOTIC_ORB") && event.entityB.name == "FROSTBOLT") {
+                    print("Frostbolt detected in collision with: \(event.entityA.name)")
+                    print("Frostbolt hit an enemy or chaotic orb")
+                    score += 1
+                    
+                    if event.entityA.name == "CHAOTIC_ORB" {
+                        print("Frostbolt hit chaotic orb - destroying orb")
+                        ChaoticOrb.isDestroyed = true
+                        event.entityA.removeFromParent()
+                    } else if event.entityA.name.hasPrefix("ENEMY") {
+                        // Only remove from array if the enemy still exists in it
+                        if let index = enemyEntities.firstIndex(where: { entity in
+                            entity.name == event.entityA.name
+                        }) {
+                            print("Removing enemy at index \(index)")
+                            enemyEntities.remove(at: index)
+                            event.entityA.removeFromParent()
+                            // Call ChaoticOrb's handleDragonKill when an enemy is destroyed
+                            if let content = contentView {
+                                ChaoticOrb.handleDragonKill(contentView: content)
+                            }
                         }
                     }
                     
@@ -214,12 +297,15 @@ struct ImmersiveView: View {
 		
 		spellTemplate = try! Entity.load(named: "Spell.usda", in: realityKitContentBundle)
 		impactTemplate = try! Entity.load(named: "Impact.usda", in: realityKitContentBundle)
+		frostboltTemplate = try! Entity.load(named: "Spell.usda", in: realityKitContentBundle)
+		print("Frostbolt template loaded successfully")
 		
 		ImmersiveView.playBackgroundMusic()
 		
 		Task {
 			spellSound = try await AudioFileResource(named: "FireballSound.wav")
 			enemyHitSound = try await AudioFileResource(named: "EnemyDeath.mp3")
+			frostboltSound = try await AudioFileResource(named: "FireballSound.wav")
 		}
 	}
     
@@ -272,32 +358,50 @@ struct ImmersiveView: View {
     }
     
     func castSpell(tapLocation: SIMD3<Float>) {
-        //        let placementLocation = tapLocation + SIMD3<Float>(0, 0.2, 0)
         let placementLocation = SIMD3<Float>(0, 1.0, 0.3)
         let finalLocation = tapLocation + SIMD3<Float>(0, 0, -1)
         
         let iblComponent = ImageBasedLightComponent(source: .single(environmentResource!), intensityExponent: 0.25)
         
-        let entity = spellTemplate!.clone(recursive: true)
-        entity.position = simd_float([0, 0, 0])
-        
-        //        let spell = ModelEntity(mesh: .generateBox(size: [0.1,0.1,0.1]), materials: [SimpleMaterial(color: .clear, isMetallic: false)])
+        // Create the spell entity
         let spell = ModelEntity()
-        spell.addChild(entity)
-        spell.components.set(iblComponent)
-        spell.components.set(ImageBasedLightReceiverComponent(imageBasedLight: spell))
-        spell.name = "SPELL"
         
+        if ChaoticOrb.isDestroyed {
+            // FROSTBOLT
+            let entity = spellTemplate!.clone(recursive: true)  // Using spellTemplate for now since we know it works
+            entity.position = simd_float([0, 0, 0])
+            spell.addChild(entity)
+            spell.name = "FROSTBOLT"
+            print("Frostbolt created")
+            
+            if let soundLoaded = frostboltSound {
+                let audioController = spell.prepareAudio(soundLoaded)
+                audioController.gain = 15
+                audioController.play()
+            }
+            
+            // Reset isDestroyed after creating the frostbolt
+            ChaoticOrb.isDestroyed = false
+            print("Reset to regular spells after frostbolt")
+        } else {
+            // Regular SPELL
+            let entity = spellTemplate!.clone(recursive: true)
+            entity.position = simd_float([0, 0, 0])
+            spell.addChild(entity)
+            spell.name = "SPELL"
+            
+            if let soundLoaded = spellSound {
+                let audioController = spell.prepareAudio(soundLoaded)
+                audioController.gain = 15
+                audioController.play()
+            }
+        }
+        
+        spell.components.set(iblComponent)
         spell.setPosition(placementLocation, relativeTo: nil)
         spell.collision = CollisionComponent(shapes: [.generateBox(size: [0.1, 0.1, 0.1])])
         spell.collision?.filter.group = spells
         spell.collision?.filter.mask = enemies
-        
-        if let spellSoundLoaded = spellSound {
-            let audioController = spell.prepareAudio(spellSoundLoaded)
-            audioController.gain = 15
-            audioController.play()
-        }
         
         contentView!.add(spell)
         
@@ -309,9 +413,7 @@ struct ImmersiveView: View {
             bindTarget: .transform
         )
         
-        let animation = try! AnimationResource
-            .generate(with: line)
-        
+        let animation = try! AnimationResource.generate(with: line)
         spell.playAnimation(animation, transitionDuration: 0.0, startsPaused: false)
     }
     
