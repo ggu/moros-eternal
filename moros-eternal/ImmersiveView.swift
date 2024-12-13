@@ -297,7 +297,7 @@ struct ImmersiveView: View {
 		
 		spellTemplate = try! Entity.load(named: "Spell.usda", in: realityKitContentBundle)
 		impactTemplate = try! Entity.load(named: "Impact.usda", in: realityKitContentBundle)
-		frostboltTemplate = try! Entity.load(named: "Spell.usda", in: realityKitContentBundle)
+		frostboltTemplate = try! Entity.load(named: "Frostbolt.usda", in: realityKitContentBundle)
 		print("Frostbolt template loaded successfully")
 		
 		ImmersiveView.playBackgroundMusic()
@@ -368,7 +368,7 @@ struct ImmersiveView: View {
         
         if ChaoticOrb.isDestroyed {
             // FROSTBOLT
-            let entity = spellTemplate!.clone(recursive: true)  // Using spellTemplate for now since we know it works
+            let entity = frostboltTemplate!.clone(recursive: true)  // Using spellTemplate for now since we know it works
             entity.position = simd_float([0, 0, 0])
             spell.addChild(entity)
             spell.name = "FROSTBOLT"
