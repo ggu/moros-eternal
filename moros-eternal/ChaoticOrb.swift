@@ -9,6 +9,7 @@ class ChaoticOrb {
     let entity: ModelEntity
     private static var dragonKillCount: Int = 0
     static var isDestroyed: Bool = false
+    static var currentOrb: ChaoticOrb?  // Store the orb reference
     
     /// Increments the dragon kill count and returns the new value
     static func incrementDragonKillCount() -> Int {
@@ -96,9 +97,11 @@ class ChaoticOrb {
         }
         
         // Remove orb after movement completes
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
             print("Movement complete, removing orb")  // Debug print
-            self?.entity.removeFromParent()
+            self.entity.removeFromParent()
+            ChaoticOrb.dragonKillCount = 0  // Reset the count without triggering isDestroyed
+            ChaoticOrb.currentOrb = nil  // Clear the stored reference
         }
     }
     
@@ -106,15 +109,14 @@ class ChaoticOrb {
     /// - Parameters:
     ///   - contentView: The RealityKit content view to add the orb to
     static func handleDragonKill(contentView: RealityViewContent) {
-        let orb = ChaoticOrb()
-        let newCount = incrementDragonKillCount()
-        print("Dragon killed! Count: \(newCount)")
-        
-        if newCount >= 10 {
-            print("Spawning Chaotic Orb")  // Debug print
+        if incrementDragonKillCount() >= 10 && !isDestroyed {
+            print("Dragon killed! Count: \(dragonKillCount)")
+            print("Spawning Chaotic Orb")
+            let orb = ChaoticOrb()
             contentView.add(orb.entity)
+            currentOrb = orb  // Fixed: removed moros_eternal
             orb.moveChaotically()
-            dragonKillCount = 0  // Reset the count
+            dragonKillCount = 0
         }
     }
     

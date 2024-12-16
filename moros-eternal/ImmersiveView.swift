@@ -17,6 +17,7 @@ let enemies: CollisionGroup = CollisionGroup(rawValue: 1 << 0)
 let spells: CollisionGroup = CollisionGroup(rawValue: 1 << 1)
 
 var enemyEntities: [Entity] = []
+var currentOrb: ChaoticOrb? = nil
 
 var isGameOver = false
 
