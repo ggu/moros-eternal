@@ -306,7 +306,7 @@ struct ImmersiveView: View {
 		Task {
 			spellSound = try await AudioFileResource(named: "FireballSound.wav")
 			enemyHitSound = try await AudioFileResource(named: "EnemyDeath.mp3")
-			frostboltSound = try await AudioFileResource(named: "FireballSound.wav")
+			frostboltSound = try await AudioFileResource(named: "Frostbolt.mp3")
 		}
 	}
     
@@ -359,7 +359,7 @@ struct ImmersiveView: View {
     }
     
     func castSpell(tapLocation: SIMD3<Float>) {
-        let placementLocation = SIMD3<Float>(0, 1.0, 0.3)
+        let placementLocation = SIMD3<Float>(0, 0.8, 0.3)
         let finalLocation = tapLocation + SIMD3<Float>(0, 0, -1)
         
         let iblComponent = ImageBasedLightComponent(source: .single(environmentResource!), intensityExponent: 0.25)

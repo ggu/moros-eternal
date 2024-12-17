@@ -12,6 +12,7 @@
 		4EDE91D22D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4EDE91D12D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz */; };
 		4EE10E812D0B99B600A45439 /* BlueOrbRCP.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4EE10E802D0B99B600A45439 /* BlueOrbRCP.usdz */; };
 		4EE10E832D0B9A3200A45439 /* ChaoticOrb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE10E822D0B9A3200A45439 /* ChaoticOrb.swift */; };
+		4EE10E852D110E4B00A45439 /* Frostbolt.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4EE10E842D110E4B00A45439 /* Frostbolt.mp3 */; };
 		767367ED2BD4751E00513603 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 767367EC2BD4751E00513603 /* RealityKitContent */; };
 		767367EF2BD4751E00513603 /* moros_eternalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367EE2BD4751E00513603 /* moros_eternalApp.swift */; };
 		767367F12BD4751E00513603 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767367F02BD4751E00513603 /* ContentView.swift */; };
@@ -32,6 +33,7 @@
 		4EDE91D12D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = WyvernDragon_flying_decimated_2.usdz; sourceTree = "<group>"; };
 		4EE10E802D0B99B600A45439 /* BlueOrbRCP.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = BlueOrbRCP.usdz; sourceTree = "<group>"; };
 		4EE10E822D0B9A3200A45439 /* ChaoticOrb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaoticOrb.swift; sourceTree = "<group>"; };
+		4EE10E842D110E4B00A45439 /* Frostbolt.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Frostbolt.mp3; sourceTree = "<group>"; };
 		767367E72BD4751E00513603 /* moros-eternal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "moros-eternal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		767367EB2BD4751E00513603 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		767367EE2BD4751E00513603 /* moros_eternalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = moros_eternalApp.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		767368152BD5F13700513603 /* sound */ = {
 			isa = PBXGroup;
 			children = (
+				4EE10E842D110E4B00A45439 /* Frostbolt.mp3 */,
 				767368112BD5F0FD00513603 /* EnemyDeath.mp3 */,
 				7673680F2BD5F0E200513603 /* FireballSound.wav */,
 				767368132BD5F13300513603 /* music.mp3 */,
@@ -200,6 +203,7 @@
 				767367FA2BD4751F00513603 /* Preview Assets.xcassets in Resources */,
 				4E42C5F92CCC35CD00CB8F6E /* wyvern_dragon.usdz in Resources */,
 				767368122BD5F0FD00513603 /* EnemyDeath.mp3 in Resources */,
+				4EE10E852D110E4B00A45439 /* Frostbolt.mp3 in Resources */,
 				767368142BD5F13300513603 /* music.mp3 in Resources */,
 				4EDE91D22D03E217003CE297 /* WyvernDragon_flying_decimated_2.usdz in Resources */,
 				4EE10E812D0B99B600A45439 /* BlueOrbRCP.usdz in Resources */,

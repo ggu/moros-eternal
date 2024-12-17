@@ -52,7 +52,7 @@ def Xform "Root"
                     float3 acceleration = (0, 0, 0)
                     float3 billboardAxis = (0, 0, 0)
                     token billboardMode = "Billboard"
-                    float birthRate = 500
+                    float birthRate = 2000
                     float birthRateVariation = 0
                     token blendMode = "Additive"
                     float colorEvolutionPower = 0.2
@@ -78,14 +78,14 @@ def Xform "Root"
                     float particleSizeVariation = 0.003
                     float3 radialGravityCenter = (1, 1, 0)
                     float radialGravityStrength = 0
-                    float sizeMultiplierAtEndOfLifespan = 0.1
+                    float sizeMultiplierAtEndOfLifespan = 1
                     float sizeMultiplierAtEndOfLifespanPower = 0.1
                     token sortOrder = "IncreasingDepth"
                     float spreadingAngle = 0
                     float4 startColorA = (0, 0.2249634, 1, 1)
                     float4 startColorB = (0.101960786, 0.4, 0.9019608, 1)
                     float stretchFactor = 1
-                    bool useEndColor = 1
+                    bool useEndColor = 0
                     bool useEndColorRange = 1
                     bool useStartColorRange = 1
                     float3 vortexDirection = (0, 1, 0)
